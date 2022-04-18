@@ -61,8 +61,3 @@ static nodeList **hash_table;
 void init_hash_table(); // initialize hash table
 unsigned int hash(char *key); // hash function 
 void insert(char *name, int len, int type, int lineno); // insert entry
-nodeList *lookup(char *name); // search for entry
-nodeList *lookup_scope(char *name, int scope); // search for entry in scope
-void hide_scope(); // hide the current scope
-void incr_scope(); // go to next scope
-void ToY_dump(FILE *of); // dump file
