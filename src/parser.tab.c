@@ -1445,11 +1445,8 @@ int main (int argc, char *argv[]){
 	int parse;
 	yyin = fopen(argv[1], "r");
 	parse = yyparse();
-	fclose(yyin);
-	yyout = fopen("ToY_dump.out", "w");
-	fclose(yyout);
 	printf("\nCompile: ",parse);
 	if(parse == 0){printf("VALID: compilation successful");}
-	else{printf("ERROR: compilation failed");}
+	else{printf("ERROR: compilation failed ");}
 	return parse;
 }
