@@ -38,36 +38,36 @@ String 			  \"([^"\\])*\"
 
 "struct"			    { return STRUCT;} 
 "int"					{ return INTEGER; }
-"bool"					{ return BOOL; }
 "string"				{ return STRING; }
+"void"					{ return VOID; }
+"return"				{ return RETURN; }
+"printf"			    { return PRINT;}
+"bool"					{ return BOOL; }
 "true"			        { return TRU; }
 "false"			        { return FAL;} 
 "for"					{ return FOR; }
 "if"					{ return IF; }
-"then"					{ return THEN; }
 "else"					{ return ELSE; }
-"void"					{ return VOID; }
-"return"				{ return RETURN; }
-"printf"			    { return PRINT;} 
+"then"					{ return THEN; } 
  
-"+"						{ return ADDOPERATOR; }
-"-"						{ return SUBOPERATOR; }
-"*"						{ return MULOPERATOR; }
-"/"						{ return DIVOPERATOR; }
-"or"					{ return OROPERATOR; }
-"not"|"!"				{ return NOTOPERATOR; }
-"and"					{ return ANDOPERATOR; }
-"mod"					{ return MODOPERATOR; }
-"=="|"!="				{ return EQUOPERATOR; }
-">"|"<"|">="|"<="		{ return RELOPERATOR; }
+"+"						{ return ADD; }
+"-"						{ return SUB; }
+"*"						{ return MULTIPLY; }
+"/"						{ return DIVIDE; }
+"or"					{ return OR; }
+"not"|"!"				{ return NOT; }
+"and"					{ return AND; }
+"mod"					{ return MOD; }
+"=="|"!="				{ return EQUALS; }
+">"|"<"|">="|"<="		{ return RELATIONAL; }
 ","						{ return COMMA; }
  
  
-"("				{ return LPAREN; }
-")"				{ return RPAREN; }
+"("				{ return LBRACKET; }
+")"				{ return RBRACKET; }
 "{"				{ return LBRACE; }
 "}"				{ return RBRACE; }
-";"				{ return SEMI; }
+";"				{ return SEMICOLON; }
 "."				{ return DOT; }
 "="				{ return EQUAL; }
 
@@ -91,6 +91,14 @@ String 			  \"([^"\\])*\"
 							return ICONST; 
 						} 
 				}
+{Identifier} 			{
+					insert(yytext, strlen(yytext), UNDEF, yylineno);
+					return ID;
+				}
+
+
+.				{ yyerror("ERROR: character not recognised"); }
+				
 
 {String} 		{ 
 					int present = 0;
@@ -100,7 +108,7 @@ String 			  \"([^"\\])*\"
 							present = 1;
 				  	}
 					if(present == 1)
-						yyerror("ERROR: STRING OOB");
+						yyerror("ERROR: STRING OUT OF BOUNDS");
 					//	return INVALID;
 					else
 					{
@@ -108,13 +116,5 @@ String 			  \"([^"\\])*\"
 					} 
 				}
 
-{Identifier} 			{
-					// insert identifier into symbol table
-					insert(yytext, strlen(yytext), UNDEF, yylineno);
-					return ID;
-				}
-
-
-.				{ yyerror("Unrecognized character"); }
 
 %%
