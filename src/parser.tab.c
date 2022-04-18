@@ -132,11 +132,11 @@ enum yysymbol_kind_t
   YYSYMBOL_TRU = 22,                       /* TRU  */
   YYSYMBOL_FAL = 23,                       /* FAL  */
   YYSYMBOL_STRUCT = 24,                    /* STRUCT  */
-  YYSYMBOL_LPAREN = 25,                    /* LPAREN  */
-  YYSYMBOL_RPAREN = 26,                    /* RPAREN  */
+  YYSYMBOL_LBRACKET = 25,                  /* LBRACKET  */
+  YYSYMBOL_RBRACKET = 26,                  /* RBRACKET  */
   YYSYMBOL_LBRACE = 27,                    /* LBRACE  */
   YYSYMBOL_RBRACE = 28,                    /* RBRACE  */
-  YYSYMBOL_SEMI = 29,                      /* SEMI  */
+  YYSYMBOL_SEMICOLON = 29,                 /* SEMICOLON  */
   YYSYMBOL_DOT = 30,                       /* DOT  */
   YYSYMBOL_COMMA = 31,                     /* COMMA  */
   YYSYMBOL_PRINT = 32,                     /* PRINT  */
@@ -585,9 +585,9 @@ static const char *const yytname[] =
   "\"end of file\"", "error", "\"invalid token\"", "NOT", "ADD", "SUB",
   "RELATIONAL", "EQUAL", "EQUALS", "MULTIPLY", "DIVIDE", "OR", "AND",
   "MOD", "INTEGER", "IF", "THEN", "ELSE", "FOR", "VOID", "RETURN", "BOOL",
-  "TRU", "FAL", "STRUCT", "LPAREN", "RPAREN", "LBRACE", "RBRACE", "SEMI",
-  "DOT", "COMMA", "PRINT", "ID", "ICONST", "STRING", "SCONST", "$accept",
-  "program", "procedure_declarations", "procedure_declaration",
+  "TRU", "FAL", "STRUCT", "LBRACKET", "RBRACKET", "LBRACE", "RBRACE",
+  "SEMICOLON", "DOT", "COMMA", "PRINT", "ID", "ICONST", "STRING", "SCONST",
+  "$accept", "program", "procedure_declarations", "procedure_declaration",
   "statements", "statement", "declaration", "declarations_p",
   "declarations_s", "declaration_p", "procedure_calls", "expressions",
   "expression", "type", "prints", "returns", "return_type", "assignment",

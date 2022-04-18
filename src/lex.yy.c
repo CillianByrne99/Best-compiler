@@ -1145,12 +1145,12 @@ YY_RULE_SETUP
 case 26:
 YY_RULE_SETUP
 #line 66 "lexer.l"
-{ return LPAREN; }
+{ return LBRACKET; }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
 #line 67 "lexer.l"
-{ return RPAREN; }
+{ return RBRACKET; }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
@@ -1165,7 +1165,7 @@ YY_RULE_SETUP
 case 30:
 YY_RULE_SETUP
 #line 70 "lexer.l"
-{ return SEMI; }
+{ return SEMICOLON; }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP

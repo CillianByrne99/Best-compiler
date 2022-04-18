@@ -36,8 +36,8 @@ Grammar
     2 procedure_declarations: procedure_declaration procedure_declarations
     3                       | ε
 
-    4 procedure_declaration: return_type ID LPAREN declarations_p LBRACE statements RBRACE
-    5                      | return_type ID LPAREN RPAREN LBRACE statements RBRACE
+    4 procedure_declaration: return_type ID LBRACKET declarations_p LBRACE statements RBRACE
+    5                      | return_type ID LBRACKET RBRACKET LBRACE statements RBRACE
     6                      | STRUCT ID LBRACE declarations_s
 
     7 statements: statement statements
@@ -49,20 +49,20 @@ Grammar
    12          | prints
    13          | declaration
    14          | procedure_calls
-   15          | RETURN returns SEMI
+   15          | RETURN returns SEMICOLON
 
-   16 declaration: type ID SEMI
+   16 declaration: type ID SEMICOLON
 
    17 declarations_p: declaration_p COMMA declarations_p
-   18               | declaration_p RPAREN
+   18               | declaration_p RBRACKET
 
    19 declarations_s: declaration_p COMMA declarations_s
    20               | declaration_p RBRACE
 
    21 declaration_p: type ID
 
-   22 procedure_calls: ID LPAREN expressions RPAREN SEMI
-   23                | ID EQUAL ID LPAREN expressions RPAREN SEMI
+   22 procedure_calls: ID LBRACKET expressions RBRACKET SEMICOLON
+   23                | ID EQUAL ID LBRACKET expressions RBRACKET SEMICOLON
 
    24 expressions: expressions expression
    25            | ε
@@ -72,7 +72,7 @@ Grammar
    28           | TRU
    29           | FAL
    30           | expression OPERATOR expression
-   31           | LPAREN expression RPAREN
+   31           | LBRACKET expression RBRACKET
    32           | sign ICONST
    33           | NOT expression
    34           | ID
@@ -82,7 +82,7 @@ Grammar
    37     | STRING
    38     | BOOL
 
-   39 prints: PRINT LPAREN SCONST RPAREN SEMI
+   39 prints: PRINT LBRACKET SCONST RBRACKET SEMICOLON
 
    40 returns: ID
    41        | ICONST
@@ -95,18 +95,18 @@ Grammar
    47            | BOOL
    48            | VOID
 
-   49 assignment: ID EQUAL VOID SEMI
-   50           | ID EQUAL expression SEMI
+   49 assignment: ID EQUAL VOID SEMICOLON
+   50           | ID EQUAL expression SEMICOLON
 
    51 if_statements: if_statements if_statement
    52              | ε
 
-   53 if_statement: IF LPAREN bool_exp RPAREN THEN LBRACE statements RBRACE else_part
+   53 if_statement: IF LBRACKET bool_exp RBRACKET THEN LBRACE statements RBRACE else_part
 
    54 else_part: ELSE LBRACE statements RBRACE
    55          | ε
 
-   56 for_statement: FOR LPAREN assignment conditionals SEMI conditionals RPAREN LBRACE statements RBRACE
+   56 for_statement: FOR LBRACKET assignment conditionals SEMICOLON conditionals RBRACKET LBRACE statements RBRACE
 
    57 bool_exp: conditionals
    58         | ID
@@ -161,11 +161,11 @@ Terminals, with rules where they appear
     TRU (277) 28 59
     FAL (278) 29 60
     STRUCT (279) 6
-    LPAREN (280) 4 5 22 23 31 39 53 56
-    RPAREN (281) 5 18 22 23 31 39 53 56
+    LBRACKET (280) 4 5 22 23 31 39 53 56
+    RBRACKET (281) 5 18 22 23 31 39 53 56
     LBRACE (282) 4 5 6 53 54 56
     RBRACE (283) 4 5 20 53 54 56
-    SEMI (284) 15 16 22 23 39 49 50 56
+    SEMICOLON (284) 15 16 22 23 39 49 50 56
     DOT (285) 35
     COMMA (286) 17 19
     PRINT (287) 39
@@ -342,8 +342,8 @@ State 8
 
 State 9
 
-    4 procedure_declaration: return_type • ID LPAREN declarations_p LBRACE statements RBRACE
-    5                      | return_type • ID LPAREN RPAREN LBRACE statements RBRACE
+    4 procedure_declaration: return_type • ID LBRACKET declarations_p LBRACE statements RBRACE
+    5                      | return_type • ID LBRACKET RBRACKET LBRACE statements RBRACE
 
     ID  shift, and go to state 13
 
@@ -371,10 +371,10 @@ State 12
 
 State 13
 
-    4 procedure_declaration: return_type ID • LPAREN declarations_p LBRACE statements RBRACE
-    5                      | return_type ID • LPAREN RPAREN LBRACE statements RBRACE
+    4 procedure_declaration: return_type ID • LBRACKET declarations_p LBRACE statements RBRACE
+    5                      | return_type ID • LBRACKET RBRACKET LBRACE statements RBRACE
 
-    LPAREN  shift, and go to state 15
+    LBRACKET  shift, and go to state 15
 
 
 State 14
@@ -392,13 +392,13 @@ State 14
 
 State 15
 
-    4 procedure_declaration: return_type ID LPAREN • declarations_p LBRACE statements RBRACE
-    5                      | return_type ID LPAREN • RPAREN LBRACE statements RBRACE
+    4 procedure_declaration: return_type ID LBRACKET • declarations_p LBRACE statements RBRACE
+    5                      | return_type ID LBRACKET • RBRACKET LBRACE statements RBRACE
 
-    INTEGER  shift, and go to state 16
-    BOOL     shift, and go to state 17
-    RPAREN   shift, and go to state 22
-    STRING   shift, and go to state 18
+    INTEGER   shift, and go to state 16
+    BOOL      shift, and go to state 17
+    RBRACKET  shift, and go to state 22
+    STRING    shift, and go to state 18
 
     declarations_p  go to state 23
     declaration_p   go to state 24
@@ -451,14 +451,14 @@ State 21
 
 State 22
 
-    5 procedure_declaration: return_type ID LPAREN RPAREN • LBRACE statements RBRACE
+    5 procedure_declaration: return_type ID LBRACKET RBRACKET • LBRACE statements RBRACE
 
     LBRACE  shift, and go to state 28
 
 
 State 23
 
-    4 procedure_declaration: return_type ID LPAREN declarations_p • LBRACE statements RBRACE
+    4 procedure_declaration: return_type ID LBRACKET declarations_p • LBRACE statements RBRACE
 
     LBRACE  shift, and go to state 29
 
@@ -466,10 +466,10 @@ State 23
 State 24
 
    17 declarations_p: declaration_p • COMMA declarations_p
-   18               | declaration_p • RPAREN
+   18               | declaration_p • RBRACKET
 
-    RPAREN  shift, and go to state 30
-    COMMA   shift, and go to state 31
+    RBRACKET  shift, and go to state 30
+    COMMA     shift, and go to state 31
 
 
 State 25
@@ -501,7 +501,7 @@ State 27
 
 State 28
 
-    5 procedure_declaration: return_type ID LPAREN RPAREN LBRACE • statements RBRACE
+    5 procedure_declaration: return_type ID LBRACKET RBRACKET LBRACE • statements RBRACE
 
     INTEGER  shift, and go to state 16
     FOR      shift, and go to state 33
@@ -536,7 +536,7 @@ State 28
 
 State 29
 
-    4 procedure_declaration: return_type ID LPAREN declarations_p LBRACE • statements RBRACE
+    4 procedure_declaration: return_type ID LBRACKET declarations_p LBRACE • statements RBRACE
 
     INTEGER  shift, and go to state 16
     FOR      shift, and go to state 33
@@ -571,7 +571,7 @@ State 29
 
 State 30
 
-   18 declarations_p: declaration_p RPAREN •
+   18 declarations_p: declaration_p RBRACKET •
 
     $default  reduce using rule 18 (declarations_p)
 
@@ -598,14 +598,14 @@ State 32
 
 State 33
 
-   56 for_statement: FOR • LPAREN assignment conditionals SEMI conditionals RPAREN LBRACE statements RBRACE
+   56 for_statement: FOR • LBRACKET assignment conditionals SEMICOLON conditionals RBRACKET LBRACE statements RBRACE
 
-    LPAREN  shift, and go to state 48
+    LBRACKET  shift, and go to state 48
 
 
 State 34
 
-   15 statement: RETURN • returns SEMI
+   15 statement: RETURN • returns SEMICOLON
 
     VOID    shift, and go to state 49
     ID      shift, and go to state 50
@@ -619,25 +619,25 @@ State 34
 
 State 35
 
-   39 prints: PRINT • LPAREN SCONST RPAREN SEMI
+   39 prints: PRINT • LBRACKET SCONST RBRACKET SEMICOLON
 
-    LPAREN  shift, and go to state 54
+    LBRACKET  shift, and go to state 54
 
 
 State 36
 
-   22 procedure_calls: ID • LPAREN expressions RPAREN SEMI
-   23                | ID • EQUAL ID LPAREN expressions RPAREN SEMI
-   49 assignment: ID • EQUAL VOID SEMI
-   50           | ID • EQUAL expression SEMI
+   22 procedure_calls: ID • LBRACKET expressions RBRACKET SEMICOLON
+   23                | ID • EQUAL ID LBRACKET expressions RBRACKET SEMICOLON
+   49 assignment: ID • EQUAL VOID SEMICOLON
+   50           | ID • EQUAL expression SEMICOLON
 
-    EQUAL   shift, and go to state 55
-    LPAREN  shift, and go to state 56
+    EQUAL     shift, and go to state 55
+    LBRACKET  shift, and go to state 56
 
 
 State 37
 
-    5 procedure_declaration: return_type ID LPAREN RPAREN LBRACE statements • RBRACE
+    5 procedure_declaration: return_type ID LBRACKET RBRACKET LBRACE statements • RBRACE
 
     RBRACE  shift, and go to state 57
 
@@ -693,7 +693,7 @@ State 40
 
 State 41
 
-   16 declaration: type • ID SEMI
+   16 declaration: type • ID SEMICOLON
 
     ID  shift, and go to state 59
 
@@ -734,7 +734,7 @@ State 45
 
 State 46
 
-    4 procedure_declaration: return_type ID LPAREN declarations_p LBRACE statements • RBRACE
+    4 procedure_declaration: return_type ID LBRACKET declarations_p LBRACE statements • RBRACE
 
     RBRACE  shift, and go to state 62
 
@@ -748,7 +748,7 @@ State 47
 
 State 48
 
-   56 for_statement: FOR LPAREN • assignment conditionals SEMI conditionals RPAREN LBRACE statements RBRACE
+   56 for_statement: FOR LBRACKET • assignment conditionals SEMICOLON conditionals RBRACKET LBRACE statements RBRACE
 
     ID  shift, and go to state 63
 
@@ -785,34 +785,34 @@ State 52
 
 State 53
 
-   15 statement: RETURN returns • SEMI
+   15 statement: RETURN returns • SEMICOLON
 
-    SEMI  shift, and go to state 65
+    SEMICOLON  shift, and go to state 65
 
 
 State 54
 
-   39 prints: PRINT LPAREN • SCONST RPAREN SEMI
+   39 prints: PRINT LBRACKET • SCONST RBRACKET SEMICOLON
 
     SCONST  shift, and go to state 66
 
 
 State 55
 
-   23 procedure_calls: ID EQUAL • ID LPAREN expressions RPAREN SEMI
-   49 assignment: ID EQUAL • VOID SEMI
-   50           | ID EQUAL • expression SEMI
+   23 procedure_calls: ID EQUAL • ID LBRACKET expressions RBRACKET SEMICOLON
+   49 assignment: ID EQUAL • VOID SEMICOLON
+   50           | ID EQUAL • expression SEMICOLON
 
-    NOT     shift, and go to state 67
-    ADD     shift, and go to state 68
-    SUB     shift, and go to state 69
-    VOID    shift, and go to state 70
-    TRU     shift, and go to state 71
-    FAL     shift, and go to state 72
-    LPAREN  shift, and go to state 73
-    ID      shift, and go to state 74
-    ICONST  shift, and go to state 75
-    SCONST  shift, and go to state 76
+    NOT       shift, and go to state 67
+    ADD       shift, and go to state 68
+    SUB       shift, and go to state 69
+    VOID      shift, and go to state 70
+    TRU       shift, and go to state 71
+    FAL       shift, and go to state 72
+    LBRACKET  shift, and go to state 73
+    ID        shift, and go to state 74
+    ICONST    shift, and go to state 75
+    SCONST    shift, and go to state 76
 
     expression  go to state 77
     sign        go to state 78
@@ -820,7 +820,7 @@ State 55
 
 State 56
 
-   22 procedure_calls: ID LPAREN • expressions RPAREN SEMI
+   22 procedure_calls: ID LBRACKET • expressions RBRACKET SEMICOLON
 
     $default  reduce using rule 25 (expressions)
 
@@ -829,7 +829,7 @@ State 56
 
 State 57
 
-    5 procedure_declaration: return_type ID LPAREN RPAREN LBRACE statements RBRACE •
+    5 procedure_declaration: return_type ID LBRACKET RBRACKET LBRACE statements RBRACE •
 
     $default  reduce using rule 5 (procedure_declaration)
 
@@ -843,16 +843,16 @@ State 58
 
 State 59
 
-   16 declaration: type ID • SEMI
+   16 declaration: type ID • SEMICOLON
 
-    SEMI  shift, and go to state 80
+    SEMICOLON  shift, and go to state 80
 
 
 State 60
 
-   53 if_statement: IF • LPAREN bool_exp RPAREN THEN LBRACE statements RBRACE else_part
+   53 if_statement: IF • LBRACKET bool_exp RBRACKET THEN LBRACE statements RBRACE else_part
 
-    LPAREN  shift, and go to state 81
+    LBRACKET  shift, and go to state 81
 
 
 State 61
@@ -864,32 +864,32 @@ State 61
 
 State 62
 
-    4 procedure_declaration: return_type ID LPAREN declarations_p LBRACE statements RBRACE •
+    4 procedure_declaration: return_type ID LBRACKET declarations_p LBRACE statements RBRACE •
 
     $default  reduce using rule 4 (procedure_declaration)
 
 
 State 63
 
-   49 assignment: ID • EQUAL VOID SEMI
-   50           | ID • EQUAL expression SEMI
+   49 assignment: ID • EQUAL VOID SEMICOLON
+   50           | ID • EQUAL expression SEMICOLON
 
     EQUAL  shift, and go to state 82
 
 
 State 64
 
-   56 for_statement: FOR LPAREN assignment • conditionals SEMI conditionals RPAREN LBRACE statements RBRACE
+   56 for_statement: FOR LBRACKET assignment • conditionals SEMICOLON conditionals RBRACKET LBRACE statements RBRACE
 
-    NOT     shift, and go to state 83
-    ADD     shift, and go to state 68
-    SUB     shift, and go to state 69
-    TRU     shift, and go to state 71
-    FAL     shift, and go to state 72
-    LPAREN  shift, and go to state 73
-    ID      shift, and go to state 84
-    ICONST  shift, and go to state 75
-    SCONST  shift, and go to state 76
+    NOT       shift, and go to state 83
+    ADD       shift, and go to state 68
+    SUB       shift, and go to state 69
+    TRU       shift, and go to state 71
+    FAL       shift, and go to state 72
+    LBRACKET  shift, and go to state 73
+    ID        shift, and go to state 84
+    ICONST    shift, and go to state 75
+    SCONST    shift, and go to state 76
 
     expression    go to state 85
     conditionals  go to state 86
@@ -898,31 +898,31 @@ State 64
 
 State 65
 
-   15 statement: RETURN returns SEMI •
+   15 statement: RETURN returns SEMICOLON •
 
     $default  reduce using rule 15 (statement)
 
 
 State 66
 
-   39 prints: PRINT LPAREN SCONST • RPAREN SEMI
+   39 prints: PRINT LBRACKET SCONST • RBRACKET SEMICOLON
 
-    RPAREN  shift, and go to state 87
+    RBRACKET  shift, and go to state 87
 
 
 State 67
 
    33 expression: NOT • expression
 
-    NOT     shift, and go to state 67
-    ADD     shift, and go to state 68
-    SUB     shift, and go to state 69
-    TRU     shift, and go to state 71
-    FAL     shift, and go to state 72
-    LPAREN  shift, and go to state 73
-    ID      shift, and go to state 88
-    ICONST  shift, and go to state 75
-    SCONST  shift, and go to state 76
+    NOT       shift, and go to state 67
+    ADD       shift, and go to state 68
+    SUB       shift, and go to state 69
+    TRU       shift, and go to state 71
+    FAL       shift, and go to state 72
+    LBRACKET  shift, and go to state 73
+    ID        shift, and go to state 88
+    ICONST    shift, and go to state 75
+    SCONST    shift, and go to state 76
 
     expression  go to state 89
     sign        go to state 78
@@ -944,9 +944,9 @@ State 69
 
 State 70
 
-   49 assignment: ID EQUAL VOID • SEMI
+   49 assignment: ID EQUAL VOID • SEMICOLON
 
-    SEMI  shift, and go to state 90
+    SEMICOLON  shift, and go to state 90
 
 
 State 71
@@ -965,17 +965,17 @@ State 72
 
 State 73
 
-   31 expression: LPAREN • expression RPAREN
+   31 expression: LBRACKET • expression RBRACKET
 
-    NOT     shift, and go to state 67
-    ADD     shift, and go to state 68
-    SUB     shift, and go to state 69
-    TRU     shift, and go to state 71
-    FAL     shift, and go to state 72
-    LPAREN  shift, and go to state 73
-    ID      shift, and go to state 88
-    ICONST  shift, and go to state 75
-    SCONST  shift, and go to state 76
+    NOT       shift, and go to state 67
+    ADD       shift, and go to state 68
+    SUB       shift, and go to state 69
+    TRU       shift, and go to state 71
+    FAL       shift, and go to state 72
+    LBRACKET  shift, and go to state 73
+    ID        shift, and go to state 88
+    ICONST    shift, and go to state 75
+    SCONST    shift, and go to state 76
 
     expression  go to state 91
     sign        go to state 78
@@ -983,12 +983,12 @@ State 73
 
 State 74
 
-   23 procedure_calls: ID EQUAL ID • LPAREN expressions RPAREN SEMI
+   23 procedure_calls: ID EQUAL ID • LBRACKET expressions RBRACKET SEMICOLON
    34 expression: ID •
    35           | ID • DOT ID
 
-    LPAREN  shift, and go to state 92
-    DOT     shift, and go to state 93
+    LBRACKET  shift, and go to state 92
+    DOT       shift, and go to state 93
 
     $default  reduce using rule 34 (expression)
 
@@ -1010,7 +1010,7 @@ State 76
 State 77
 
    30 expression: expression • OPERATOR expression
-   50 assignment: ID EQUAL expression • SEMI
+   50 assignment: ID EQUAL expression • SEMICOLON
 
     NOT         shift, and go to state 94
     ADD         shift, and go to state 95
@@ -1022,7 +1022,7 @@ State 77
     OR          shift, and go to state 101
     AND         shift, and go to state 102
     MOD         shift, and go to state 103
-    SEMI        shift, and go to state 104
+    SEMICOLON   shift, and go to state 104
 
     OPERATOR  go to state 105
 
@@ -1036,19 +1036,19 @@ State 78
 
 State 79
 
-   22 procedure_calls: ID LPAREN expressions • RPAREN SEMI
+   22 procedure_calls: ID LBRACKET expressions • RBRACKET SEMICOLON
    24 expressions: expressions • expression
 
-    NOT     shift, and go to state 67
-    ADD     shift, and go to state 68
-    SUB     shift, and go to state 69
-    TRU     shift, and go to state 71
-    FAL     shift, and go to state 72
-    LPAREN  shift, and go to state 73
-    RPAREN  shift, and go to state 107
-    ID      shift, and go to state 88
-    ICONST  shift, and go to state 75
-    SCONST  shift, and go to state 76
+    NOT       shift, and go to state 67
+    ADD       shift, and go to state 68
+    SUB       shift, and go to state 69
+    TRU       shift, and go to state 71
+    FAL       shift, and go to state 72
+    LBRACKET  shift, and go to state 73
+    RBRACKET  shift, and go to state 107
+    ID        shift, and go to state 88
+    ICONST    shift, and go to state 75
+    SCONST    shift, and go to state 76
 
     expression  go to state 108
     sign        go to state 78
@@ -1056,24 +1056,24 @@ State 79
 
 State 80
 
-   16 declaration: type ID SEMI •
+   16 declaration: type ID SEMICOLON •
 
     $default  reduce using rule 16 (declaration)
 
 
 State 81
 
-   53 if_statement: IF LPAREN • bool_exp RPAREN THEN LBRACE statements RBRACE else_part
+   53 if_statement: IF LBRACKET • bool_exp RBRACKET THEN LBRACE statements RBRACE else_part
 
-    NOT     shift, and go to state 83
-    ADD     shift, and go to state 68
-    SUB     shift, and go to state 69
-    TRU     shift, and go to state 109
-    FAL     shift, and go to state 110
-    LPAREN  shift, and go to state 73
-    ID      shift, and go to state 111
-    ICONST  shift, and go to state 75
-    SCONST  shift, and go to state 76
+    NOT       shift, and go to state 83
+    ADD       shift, and go to state 68
+    SUB       shift, and go to state 69
+    TRU       shift, and go to state 109
+    FAL       shift, and go to state 110
+    LBRACKET  shift, and go to state 73
+    ID        shift, and go to state 111
+    ICONST    shift, and go to state 75
+    SCONST    shift, and go to state 76
 
     expression    go to state 85
     bool_exp      go to state 112
@@ -1083,19 +1083,19 @@ State 81
 
 State 82
 
-   49 assignment: ID EQUAL • VOID SEMI
-   50           | ID EQUAL • expression SEMI
+   49 assignment: ID EQUAL • VOID SEMICOLON
+   50           | ID EQUAL • expression SEMICOLON
 
-    NOT     shift, and go to state 67
-    ADD     shift, and go to state 68
-    SUB     shift, and go to state 69
-    VOID    shift, and go to state 70
-    TRU     shift, and go to state 71
-    FAL     shift, and go to state 72
-    LPAREN  shift, and go to state 73
-    ID      shift, and go to state 88
-    ICONST  shift, and go to state 75
-    SCONST  shift, and go to state 76
+    NOT       shift, and go to state 67
+    ADD       shift, and go to state 68
+    SUB       shift, and go to state 69
+    VOID      shift, and go to state 70
+    TRU       shift, and go to state 71
+    FAL       shift, and go to state 72
+    LBRACKET  shift, and go to state 73
+    ID        shift, and go to state 88
+    ICONST    shift, and go to state 75
+    SCONST    shift, and go to state 76
 
     expression  go to state 77
     sign        go to state 78
@@ -1106,15 +1106,15 @@ State 83
    33 expression: NOT • expression
    63 conditionals: NOT • expression
 
-    NOT     shift, and go to state 67
-    ADD     shift, and go to state 68
-    SUB     shift, and go to state 69
-    TRU     shift, and go to state 71
-    FAL     shift, and go to state 72
-    LPAREN  shift, and go to state 73
-    ID      shift, and go to state 88
-    ICONST  shift, and go to state 75
-    SCONST  shift, and go to state 76
+    NOT       shift, and go to state 67
+    ADD       shift, and go to state 68
+    SUB       shift, and go to state 69
+    TRU       shift, and go to state 71
+    FAL       shift, and go to state 72
+    LBRACKET  shift, and go to state 73
+    ID        shift, and go to state 88
+    ICONST    shift, and go to state 75
+    SCONST    shift, and go to state 76
 
     expression  go to state 114
     sign        go to state 78
@@ -1156,16 +1156,16 @@ State 85
 
 State 86
 
-   56 for_statement: FOR LPAREN assignment conditionals • SEMI conditionals RPAREN LBRACE statements RBRACE
+   56 for_statement: FOR LBRACKET assignment conditionals • SEMICOLON conditionals RBRACKET LBRACE statements RBRACE
 
-    SEMI  shift, and go to state 120
+    SEMICOLON  shift, and go to state 120
 
 
 State 87
 
-   39 prints: PRINT LPAREN SCONST RPAREN • SEMI
+   39 prints: PRINT LBRACKET SCONST RBRACKET • SEMICOLON
 
-    SEMI  shift, and go to state 121
+    SEMICOLON  shift, and go to state 121
 
 
 State 88
@@ -1199,7 +1199,7 @@ State 89
 
 State 90
 
-   49 assignment: ID EQUAL VOID SEMI •
+   49 assignment: ID EQUAL VOID SEMICOLON •
 
     $default  reduce using rule 49 (assignment)
 
@@ -1207,7 +1207,7 @@ State 90
 State 91
 
    30 expression: expression • OPERATOR expression
-   31           | LPAREN expression • RPAREN
+   31           | LBRACKET expression • RBRACKET
 
     NOT         shift, and go to state 94
     ADD         shift, and go to state 95
@@ -1219,14 +1219,14 @@ State 91
     OR          shift, and go to state 101
     AND         shift, and go to state 102
     MOD         shift, and go to state 103
-    RPAREN      shift, and go to state 122
+    RBRACKET    shift, and go to state 122
 
     OPERATOR  go to state 105
 
 
 State 92
 
-   23 procedure_calls: ID EQUAL ID LPAREN • expressions RPAREN SEMI
+   23 procedure_calls: ID EQUAL ID LBRACKET • expressions RBRACKET SEMICOLON
 
     $default  reduce using rule 25 (expressions)
 
@@ -1312,7 +1312,7 @@ State 103
 
 State 104
 
-   50 assignment: ID EQUAL expression SEMI •
+   50 assignment: ID EQUAL expression SEMICOLON •
 
     $default  reduce using rule 50 (assignment)
 
@@ -1321,15 +1321,15 @@ State 105
 
    30 expression: expression OPERATOR • expression
 
-    NOT     shift, and go to state 67
-    ADD     shift, and go to state 68
-    SUB     shift, and go to state 69
-    TRU     shift, and go to state 71
-    FAL     shift, and go to state 72
-    LPAREN  shift, and go to state 73
-    ID      shift, and go to state 88
-    ICONST  shift, and go to state 75
-    SCONST  shift, and go to state 76
+    NOT       shift, and go to state 67
+    ADD       shift, and go to state 68
+    SUB       shift, and go to state 69
+    TRU       shift, and go to state 71
+    FAL       shift, and go to state 72
+    LBRACKET  shift, and go to state 73
+    ID        shift, and go to state 88
+    ICONST    shift, and go to state 75
+    SCONST    shift, and go to state 76
 
     expression  go to state 125
     sign        go to state 78
@@ -1344,9 +1344,9 @@ State 106
 
 State 107
 
-   22 procedure_calls: ID LPAREN expressions RPAREN • SEMI
+   22 procedure_calls: ID LBRACKET expressions RBRACKET • SEMICOLON
 
-    SEMI  shift, and go to state 126
+    SEMICOLON  shift, and go to state 126
 
 
 State 108
@@ -1378,7 +1378,7 @@ State 109
    28 expression: TRU •
    59 bool_exp: TRU •
 
-    RPAREN    reduce using rule 59 (bool_exp)
+    RBRACKET  reduce using rule 59 (bool_exp)
     $default  reduce using rule 28 (expression)
 
 
@@ -1387,7 +1387,7 @@ State 110
    29 expression: FAL •
    60 bool_exp: FAL •
 
-    RPAREN    reduce using rule 60 (bool_exp)
+    RBRACKET  reduce using rule 60 (bool_exp)
     $default  reduce using rule 29 (expression)
 
 
@@ -1401,15 +1401,15 @@ State 111
     EQUAL  shift, and go to state 115
     DOT    shift, and go to state 93
 
-    RPAREN    reduce using rule 58 (bool_exp)
+    RBRACKET  reduce using rule 58 (bool_exp)
     $default  reduce using rule 34 (expression)
 
 
 State 112
 
-   53 if_statement: IF LPAREN bool_exp • RPAREN THEN LBRACE statements RBRACE else_part
+   53 if_statement: IF LBRACKET bool_exp • RBRACKET THEN LBRACE statements RBRACE else_part
 
-    RPAREN  shift, and go to state 127
+    RBRACKET  shift, and go to state 127
 
 
 State 113
@@ -1431,12 +1431,12 @@ State 114
     AND         shift, and go to state 102
     MOD         shift, and go to state 103
 
-    OR        [reduce using rule 33 (expression)]
-    AND       [reduce using rule 33 (expression)]
-    MOD       [reduce using rule 33 (expression)]
-    RPAREN    reduce using rule 63 (conditionals)
-    SEMI      reduce using rule 63 (conditionals)
-    $default  reduce using rule 33 (expression)
+    OR         [reduce using rule 33 (expression)]
+    AND        [reduce using rule 33 (expression)]
+    MOD        [reduce using rule 33 (expression)]
+    RBRACKET   reduce using rule 63 (conditionals)
+    SEMICOLON  reduce using rule 63 (conditionals)
+    $default   reduce using rule 33 (expression)
 
     OPERATOR  go to state 105
 
@@ -1445,15 +1445,15 @@ State 115
 
    66 conditionals: ID EQUAL • expression
 
-    NOT     shift, and go to state 67
-    ADD     shift, and go to state 68
-    SUB     shift, and go to state 69
-    TRU     shift, and go to state 71
-    FAL     shift, and go to state 72
-    LPAREN  shift, and go to state 73
-    ID      shift, and go to state 88
-    ICONST  shift, and go to state 75
-    SCONST  shift, and go to state 76
+    NOT       shift, and go to state 67
+    ADD       shift, and go to state 68
+    SUB       shift, and go to state 69
+    TRU       shift, and go to state 71
+    FAL       shift, and go to state 72
+    LBRACKET  shift, and go to state 73
+    ID        shift, and go to state 88
+    ICONST    shift, and go to state 75
+    SCONST    shift, and go to state 76
 
     expression  go to state 128
     sign        go to state 78
@@ -1464,16 +1464,16 @@ State 116
    62 conditionals: expression RELATIONAL • expression
    78 OPERATOR: RELATIONAL •
 
-    TRU     shift, and go to state 71
-    FAL     shift, and go to state 72
-    LPAREN  shift, and go to state 73
-    ID      shift, and go to state 88
-    ICONST  shift, and go to state 75
-    SCONST  shift, and go to state 76
+    TRU       shift, and go to state 71
+    FAL       shift, and go to state 72
+    LBRACKET  shift, and go to state 73
+    ID        shift, and go to state 88
+    ICONST    shift, and go to state 75
+    SCONST    shift, and go to state 76
 
     TRU       [reduce using rule 78 (OPERATOR)]
     FAL       [reduce using rule 78 (OPERATOR)]
-    LPAREN    [reduce using rule 78 (OPERATOR)]
+    LBRACKET  [reduce using rule 78 (OPERATOR)]
     ID        [reduce using rule 78 (OPERATOR)]
     ICONST    [reduce using rule 78 (OPERATOR)]
     SCONST    [reduce using rule 78 (OPERATOR)]
@@ -1488,16 +1488,16 @@ State 117
    61 conditionals: expression EQUALS • expression
    77 OPERATOR: EQUALS •
 
-    TRU     shift, and go to state 71
-    FAL     shift, and go to state 72
-    LPAREN  shift, and go to state 73
-    ID      shift, and go to state 88
-    ICONST  shift, and go to state 75
-    SCONST  shift, and go to state 76
+    TRU       shift, and go to state 71
+    FAL       shift, and go to state 72
+    LBRACKET  shift, and go to state 73
+    ID        shift, and go to state 88
+    ICONST    shift, and go to state 75
+    SCONST    shift, and go to state 76
 
     TRU       [reduce using rule 77 (OPERATOR)]
     FAL       [reduce using rule 77 (OPERATOR)]
-    LPAREN    [reduce using rule 77 (OPERATOR)]
+    LBRACKET  [reduce using rule 77 (OPERATOR)]
     ID        [reduce using rule 77 (OPERATOR)]
     ICONST    [reduce using rule 77 (OPERATOR)]
     SCONST    [reduce using rule 77 (OPERATOR)]
@@ -1512,25 +1512,25 @@ State 118
    64 conditionals: expression OR • expression
    75 OPERATOR: OR •
 
-    NOT     shift, and go to state 67
-    ADD     shift, and go to state 68
-    SUB     shift, and go to state 69
-    TRU     shift, and go to state 71
-    FAL     shift, and go to state 72
-    LPAREN  shift, and go to state 73
-    ID      shift, and go to state 88
-    ICONST  shift, and go to state 75
-    SCONST  shift, and go to state 76
+    NOT       shift, and go to state 67
+    ADD       shift, and go to state 68
+    SUB       shift, and go to state 69
+    TRU       shift, and go to state 71
+    FAL       shift, and go to state 72
+    LBRACKET  shift, and go to state 73
+    ID        shift, and go to state 88
+    ICONST    shift, and go to state 75
+    SCONST    shift, and go to state 76
 
-    NOT     [reduce using rule 75 (OPERATOR)]
-    ADD     [reduce using rule 75 (OPERATOR)]
-    SUB     [reduce using rule 75 (OPERATOR)]
-    TRU     [reduce using rule 75 (OPERATOR)]
-    FAL     [reduce using rule 75 (OPERATOR)]
-    LPAREN  [reduce using rule 75 (OPERATOR)]
-    ID      [reduce using rule 75 (OPERATOR)]
-    ICONST  [reduce using rule 75 (OPERATOR)]
-    SCONST  [reduce using rule 75 (OPERATOR)]
+    NOT       [reduce using rule 75 (OPERATOR)]
+    ADD       [reduce using rule 75 (OPERATOR)]
+    SUB       [reduce using rule 75 (OPERATOR)]
+    TRU       [reduce using rule 75 (OPERATOR)]
+    FAL       [reduce using rule 75 (OPERATOR)]
+    LBRACKET  [reduce using rule 75 (OPERATOR)]
+    ID        [reduce using rule 75 (OPERATOR)]
+    ICONST    [reduce using rule 75 (OPERATOR)]
+    SCONST    [reduce using rule 75 (OPERATOR)]
 
     expression  go to state 131
     sign        go to state 78
@@ -1541,25 +1541,25 @@ State 119
    65 conditionals: expression AND • expression
    74 OPERATOR: AND •
 
-    NOT     shift, and go to state 67
-    ADD     shift, and go to state 68
-    SUB     shift, and go to state 69
-    TRU     shift, and go to state 71
-    FAL     shift, and go to state 72
-    LPAREN  shift, and go to state 73
-    ID      shift, and go to state 88
-    ICONST  shift, and go to state 75
-    SCONST  shift, and go to state 76
+    NOT       shift, and go to state 67
+    ADD       shift, and go to state 68
+    SUB       shift, and go to state 69
+    TRU       shift, and go to state 71
+    FAL       shift, and go to state 72
+    LBRACKET  shift, and go to state 73
+    ID        shift, and go to state 88
+    ICONST    shift, and go to state 75
+    SCONST    shift, and go to state 76
 
-    NOT     [reduce using rule 74 (OPERATOR)]
-    ADD     [reduce using rule 74 (OPERATOR)]
-    SUB     [reduce using rule 74 (OPERATOR)]
-    TRU     [reduce using rule 74 (OPERATOR)]
-    FAL     [reduce using rule 74 (OPERATOR)]
-    LPAREN  [reduce using rule 74 (OPERATOR)]
-    ID      [reduce using rule 74 (OPERATOR)]
-    ICONST  [reduce using rule 74 (OPERATOR)]
-    SCONST  [reduce using rule 74 (OPERATOR)]
+    NOT       [reduce using rule 74 (OPERATOR)]
+    ADD       [reduce using rule 74 (OPERATOR)]
+    SUB       [reduce using rule 74 (OPERATOR)]
+    TRU       [reduce using rule 74 (OPERATOR)]
+    FAL       [reduce using rule 74 (OPERATOR)]
+    LBRACKET  [reduce using rule 74 (OPERATOR)]
+    ID        [reduce using rule 74 (OPERATOR)]
+    ICONST    [reduce using rule 74 (OPERATOR)]
+    SCONST    [reduce using rule 74 (OPERATOR)]
 
     expression  go to state 132
     sign        go to state 78
@@ -1567,17 +1567,17 @@ State 119
 
 State 120
 
-   56 for_statement: FOR LPAREN assignment conditionals SEMI • conditionals RPAREN LBRACE statements RBRACE
+   56 for_statement: FOR LBRACKET assignment conditionals SEMICOLON • conditionals RBRACKET LBRACE statements RBRACE
 
-    NOT     shift, and go to state 83
-    ADD     shift, and go to state 68
-    SUB     shift, and go to state 69
-    TRU     shift, and go to state 71
-    FAL     shift, and go to state 72
-    LPAREN  shift, and go to state 73
-    ID      shift, and go to state 84
-    ICONST  shift, and go to state 75
-    SCONST  shift, and go to state 76
+    NOT       shift, and go to state 83
+    ADD       shift, and go to state 68
+    SUB       shift, and go to state 69
+    TRU       shift, and go to state 71
+    FAL       shift, and go to state 72
+    LBRACKET  shift, and go to state 73
+    ID        shift, and go to state 84
+    ICONST    shift, and go to state 75
+    SCONST    shift, and go to state 76
 
     expression    go to state 85
     conditionals  go to state 133
@@ -1586,33 +1586,33 @@ State 120
 
 State 121
 
-   39 prints: PRINT LPAREN SCONST RPAREN SEMI •
+   39 prints: PRINT LBRACKET SCONST RBRACKET SEMICOLON •
 
     $default  reduce using rule 39 (prints)
 
 
 State 122
 
-   31 expression: LPAREN expression RPAREN •
+   31 expression: LBRACKET expression RBRACKET •
 
     $default  reduce using rule 31 (expression)
 
 
 State 123
 
-   23 procedure_calls: ID EQUAL ID LPAREN expressions • RPAREN SEMI
+   23 procedure_calls: ID EQUAL ID LBRACKET expressions • RBRACKET SEMICOLON
    24 expressions: expressions • expression
 
-    NOT     shift, and go to state 67
-    ADD     shift, and go to state 68
-    SUB     shift, and go to state 69
-    TRU     shift, and go to state 71
-    FAL     shift, and go to state 72
-    LPAREN  shift, and go to state 73
-    RPAREN  shift, and go to state 134
-    ID      shift, and go to state 88
-    ICONST  shift, and go to state 75
-    SCONST  shift, and go to state 76
+    NOT       shift, and go to state 67
+    ADD       shift, and go to state 68
+    SUB       shift, and go to state 69
+    TRU       shift, and go to state 71
+    FAL       shift, and go to state 72
+    LBRACKET  shift, and go to state 73
+    RBRACKET  shift, and go to state 134
+    ID        shift, and go to state 88
+    ICONST    shift, and go to state 75
+    SCONST    shift, and go to state 76
 
     expression  go to state 108
     sign        go to state 78
@@ -1658,14 +1658,14 @@ State 125
 
 State 126
 
-   22 procedure_calls: ID LPAREN expressions RPAREN SEMI •
+   22 procedure_calls: ID LBRACKET expressions RBRACKET SEMICOLON •
 
     $default  reduce using rule 22 (procedure_calls)
 
 
 State 127
 
-   53 if_statement: IF LPAREN bool_exp RPAREN • THEN LBRACE statements RBRACE else_part
+   53 if_statement: IF LBRACKET bool_exp RBRACKET • THEN LBRACE statements RBRACE else_part
 
     THEN  shift, and go to state 135
 
@@ -1777,42 +1777,42 @@ State 132
 
 State 133
 
-   56 for_statement: FOR LPAREN assignment conditionals SEMI conditionals • RPAREN LBRACE statements RBRACE
+   56 for_statement: FOR LBRACKET assignment conditionals SEMICOLON conditionals • RBRACKET LBRACE statements RBRACE
 
-    RPAREN  shift, and go to state 136
+    RBRACKET  shift, and go to state 136
 
 
 State 134
 
-   23 procedure_calls: ID EQUAL ID LPAREN expressions RPAREN • SEMI
+   23 procedure_calls: ID EQUAL ID LBRACKET expressions RBRACKET • SEMICOLON
 
-    SEMI  shift, and go to state 137
+    SEMICOLON  shift, and go to state 137
 
 
 State 135
 
-   53 if_statement: IF LPAREN bool_exp RPAREN THEN • LBRACE statements RBRACE else_part
+   53 if_statement: IF LBRACKET bool_exp RBRACKET THEN • LBRACE statements RBRACE else_part
 
     LBRACE  shift, and go to state 138
 
 
 State 136
 
-   56 for_statement: FOR LPAREN assignment conditionals SEMI conditionals RPAREN • LBRACE statements RBRACE
+   56 for_statement: FOR LBRACKET assignment conditionals SEMICOLON conditionals RBRACKET • LBRACE statements RBRACE
 
     LBRACE  shift, and go to state 139
 
 
 State 137
 
-   23 procedure_calls: ID EQUAL ID LPAREN expressions RPAREN SEMI •
+   23 procedure_calls: ID EQUAL ID LBRACKET expressions RBRACKET SEMICOLON •
 
     $default  reduce using rule 23 (procedure_calls)
 
 
 State 138
 
-   53 if_statement: IF LPAREN bool_exp RPAREN THEN LBRACE • statements RBRACE else_part
+   53 if_statement: IF LBRACKET bool_exp RBRACKET THEN LBRACE • statements RBRACE else_part
 
     INTEGER  shift, and go to state 16
     FOR      shift, and go to state 33
@@ -1847,7 +1847,7 @@ State 138
 
 State 139
 
-   56 for_statement: FOR LPAREN assignment conditionals SEMI conditionals RPAREN LBRACE • statements RBRACE
+   56 for_statement: FOR LBRACKET assignment conditionals SEMICOLON conditionals RBRACKET LBRACE • statements RBRACE
 
     INTEGER  shift, and go to state 16
     FOR      shift, and go to state 33
@@ -1882,21 +1882,21 @@ State 139
 
 State 140
 
-   53 if_statement: IF LPAREN bool_exp RPAREN THEN LBRACE statements • RBRACE else_part
+   53 if_statement: IF LBRACKET bool_exp RBRACKET THEN LBRACE statements • RBRACE else_part
 
     RBRACE  shift, and go to state 142
 
 
 State 141
 
-   56 for_statement: FOR LPAREN assignment conditionals SEMI conditionals RPAREN LBRACE statements • RBRACE
+   56 for_statement: FOR LBRACKET assignment conditionals SEMICOLON conditionals RBRACKET LBRACE statements • RBRACE
 
     RBRACE  shift, and go to state 143
 
 
 State 142
 
-   53 if_statement: IF LPAREN bool_exp RPAREN THEN LBRACE statements RBRACE • else_part
+   53 if_statement: IF LBRACKET bool_exp RBRACKET THEN LBRACE statements RBRACE • else_part
 
     ELSE  shift, and go to state 144
 
@@ -1907,7 +1907,7 @@ State 142
 
 State 143
 
-   56 for_statement: FOR LPAREN assignment conditionals SEMI conditionals RPAREN LBRACE statements RBRACE •
+   56 for_statement: FOR LBRACKET assignment conditionals SEMICOLON conditionals RBRACKET LBRACE statements RBRACE •
 
     $default  reduce using rule 56 (for_statement)
 
@@ -1921,7 +1921,7 @@ State 144
 
 State 145
 
-   53 if_statement: IF LPAREN bool_exp RPAREN THEN LBRACE statements RBRACE else_part •
+   53 if_statement: IF LBRACKET bool_exp RBRACKET THEN LBRACE statements RBRACE else_part •
 
     $default  reduce using rule 53 (if_statement)
 

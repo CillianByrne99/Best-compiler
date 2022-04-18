@@ -76,11 +76,11 @@ extern int yydebug;
     TRU = 277,                     /* TRU  */
     FAL = 278,                     /* FAL  */
     STRUCT = 279,                  /* STRUCT  */
-    LPAREN = 280,                  /* LPAREN  */
-    RPAREN = 281,                  /* RPAREN  */
+    LBRACKET = 280,                /* LBRACKET  */
+    RBRACKET = 281,                /* RBRACKET  */
     LBRACE = 282,                  /* LBRACE  */
     RBRACE = 283,                  /* RBRACE  */
-    SEMI = 284,                    /* SEMI  */
+    SEMICOLON = 284,               /* SEMICOLON  */
     DOT = 285,                     /* DOT  */
     COMMA = 286,                   /* COMMA  */
     PRINT = 287,                   /* PRINT  */

@@ -63,11 +63,11 @@ String 			  \"([^"\\])*\"
 ","						{ return COMMA; }
  
  
-"("				{ return LPAREN; }
-")"				{ return RPAREN; }
+"("				{ return LBRACKET; }
+")"				{ return RBRACKET; }
 "{"				{ return LBRACE; }
 "}"				{ return RBRACE; }
-";"				{ return SEMI; }
+";"				{ return SEMICOLON; }
 "."				{ return DOT; }
 "="				{ return EQUAL; }
 

@@ -20,7 +20,7 @@
 
 %token MULTIPLY DIVIDE OR AND MOD
 %token INTEGER IF THEN ELSE FOR  VOID RETURN BOOL TRU FAL STRUCT
-%token LPAREN RPAREN LBRACE RBRACE SEMI DOT COMMA PRINT
+%token LBRACKET RBRACKET LBRACE RBRACE SEMICOLON DOT COMMA PRINT
 %token ID ICONST STRING SCONST
 
 %left NOT SUB ADD MULTIPLY DIVIDE
@@ -38,8 +38,8 @@ program: procedure_declarations ;
 procedure_declarations: procedure_declaration procedure_declarations |  ;
 
 procedure_declaration: 
-	return_type ID LPAREN declarations_p LBRACE statements RBRACE | 
-	return_type ID LPAREN RPAREN LBRACE statements RBRACE |
+	return_type ID LBRACKET declarations_p LBRACE statements RBRACE | 
+	return_type ID LBRACKET RBRACKET LBRACE statements RBRACE |
 	STRUCT ID LBRACE declarations_s 
 ;
 
@@ -47,19 +47,19 @@ statements: statement statements | ;
  
 statement:
 	if_statements | for_statement | assignment | prints | declaration | procedure_calls
-	| RETURN returns SEMI 
+	| RETURN returns SEMICOLON
 
-declaration: type ID SEMI;
+declaration: type ID SEMICOLON;
 
-declarations_p: declaration_p COMMA declarations_p | declaration_p RPAREN;
+declarations_p: declaration_p COMMA declarations_p | declaration_p RBRACKET;
 declarations_s: declaration_p COMMA declarations_s | declaration_p RBRACE;
 
 declaration_p: type ID;
 
 
 procedure_calls: 
-	ID LPAREN expressions RPAREN SEMI | 
-	ID EQUAL ID LPAREN expressions RPAREN SEMI 
+	ID LBRACKET expressions RBRACKET SEMICOLON | 
+	ID EQUAL ID LBRACKET expressions RBRACKET SEMICOLON 
 ;
 
 
@@ -70,7 +70,7 @@ expression:
 	TRU |
 	FAL |
 	expression OPERATOR expression |
-    LPAREN expression RPAREN |
+    LBRACKET expression RBRACKET |
 	sign ICONST |
     NOT expression |
 	ID |
@@ -81,7 +81,7 @@ expression:
 
 type: INTEGER | STRING | BOOL;
 
-prints: PRINT LPAREN SCONST RPAREN SEMI ;
+prints: PRINT LBRACKET SCONST RBRACKET SEMICOLON ;
 
 returns:
 	ID | ICONST | SCONST | VOID | ;
@@ -89,17 +89,17 @@ returns:
 return_type:
 	INTEGER | STRING | BOOL | VOID;
 
-assignment:  ID EQUAL VOID SEMI | ID EQUAL expression SEMI ; 
+assignment:  ID EQUAL VOID SEMICOLON | ID EQUAL expression SEMICOLON ; 
 
 lexp : ID | ID DOT ID | 
 
 if_statements: if_statements if_statement | ;
 
-if_statement: IF LPAREN bool_exp RPAREN THEN LBRACE statements RBRACE else_part;
+if_statement: IF LBRACKET bool_exp RBRACKET THEN LBRACE statements RBRACE else_part;
  
 else_part: ELSE LBRACE statements RBRACE | ; 
  
-for_statement: FOR LPAREN assignment conditionals SEMI conditionals RPAREN LBRACE statements RBRACE;
+for_statement: FOR LBRACKET assignment conditionals SEMICOLON conditionals RBRACKET LBRACE statements RBRACE;
 
 bool_exp : conditionals | ID | TRU | FAL ;
 
