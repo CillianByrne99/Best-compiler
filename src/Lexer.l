@@ -91,7 +91,13 @@ String 			  \"([^"\\])*\"
 							return ICONST; 
 						} 
 				}
+{Identifier} 			{
+					insert(yytext, strlen(yytext), UNDEF, yylineno);
+					return ID;
+				}
 
+
+.				{ yyerror("ERROR: character not recognised"); }
 				
 
 {String} 		{ 
@@ -102,19 +108,13 @@ String 			  \"([^"\\])*\"
 							present = 1;
 				  	}
 					if(present == 1)
-						yyerror("ERROR: STRING OOB");
+						yyerror("ERROR: STRING OUT OF BOUNDS");
 					//	return INVALID;
 					else
 					{
                     	return SCONST; 
 					} 
 				}
-{Identifier} 			{
-					insert(yytext, strlen(yytext), UNDEF, yylineno);
-					return ID;
-				}
 
-
-.				{ yyerror("Unrecognized character"); }
 
 %%

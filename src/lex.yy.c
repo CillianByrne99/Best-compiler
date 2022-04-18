@@ -457,16 +457,16 @@ struct yy_trans_info
 	};
 static yyconst flex_int16_t yy_accept[105] =
     {   0,
-        0,    0,    0,    0,   40,   38,   34,   33,   33,   20,
-       38,    1,   26,   27,   17,   15,   25,   16,   31,    1,
-       35,   35,   30,   24,   32,   24,   37,   37,   37,   37,
-       37,   37,   37,   37,   37,   37,   37,   37,   37,   37,
-       28,   29,   39,   33,   23,    0,   36,   35,   35,   35,
-       24,   37,   37,   37,   37,   37,   37,   37,   12,   37,
-       37,   37,   19,   37,   37,   37,   37,   37,   37,   35,
-       21,   37,   37,   37,   11,    3,   22,   20,   37,   37,
-       37,   37,   37,   37,    8,   13,   37,   37,   37,   37,
-       37,   14,    9,    5,   10,   37,   37,   37,   37,    7,
+        0,    0,    0,    0,   40,   37,   34,   33,   33,   20,
+       37,    1,   26,   27,   17,   15,   25,   16,   31,    1,
+       35,   35,   30,   24,   32,   24,   36,   36,   36,   36,
+       36,   36,   36,   36,   36,   36,   36,   36,   36,   36,
+       28,   29,   39,   33,   23,    0,   38,   35,   35,   35,
+       24,   36,   36,   36,   36,   36,   36,   36,   12,   36,
+       36,   36,   19,   36,   36,   36,   36,   36,   36,   35,
+       21,   36,   36,   36,   11,    3,   22,   20,   36,   36,
+       36,   36,   36,   36,    8,   13,   36,   36,   36,   36,
+       36,   14,    9,    5,   10,   36,   36,   36,   36,    7,
 
         6,    4,    2,    0
     } ;
@@ -633,7 +633,7 @@ static yyconst flex_int16_t yy_rule_linenum[39] =
        36,   39,   40,   41,   42,   43,   44,   45,   46,   47,
        48,   49,   50,   51,   53,   54,   55,   56,   57,   58,
        59,   60,   61,   62,   63,   66,   67,   68,   69,   70,
-       71,   72,   74,   75,   77,   97,  112,  118
+       71,   72,   74,   75,   77,   94,  100,  103
     } ;
 
 /* The intent behind this definition is that it'll catch
@@ -1210,9 +1210,22 @@ YY_RULE_SETUP
 				}
 	YY_BREAK
 case 36:
-/* rule 36 can match eol */
 YY_RULE_SETUP
-#line 97 "lexer.l"
+#line 94 "lexer.l"
+{
+					insert(yytext, strlen(yytext), UNDEF, yylineno);
+					return ID;
+				}
+	YY_BREAK
+case 37:
+YY_RULE_SETUP
+#line 100 "lexer.l"
+{ yyerror("ERROR: character not recognised"); }
+	YY_BREAK
+case 38:
+/* rule 38 can match eol */
+YY_RULE_SETUP
+#line 103 "lexer.l"
 { 
 					int present = 0;
 					for(int i = 0; yytext[i] != '\0'; i++)
@@ -1221,26 +1234,13 @@ YY_RULE_SETUP
 							present = 1;
 				  	}
 					if(present == 1)
-						yyerror("ERROR: STRING OOB");
+						yyerror("ERROR: STRING OUT OF BOUNDS");
 					//	return INVALID;
 					else
 					{
                     	return SCONST; 
 					} 
 				}
-	YY_BREAK
-case 37:
-YY_RULE_SETUP
-#line 112 "lexer.l"
-{
-					insert(yytext, strlen(yytext), UNDEF, yylineno);
-					return ID;
-				}
-	YY_BREAK
-case 38:
-YY_RULE_SETUP
-#line 118 "lexer.l"
-{ yyerror("Unrecognized character"); }
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
