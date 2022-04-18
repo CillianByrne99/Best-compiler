@@ -10,26 +10,19 @@
 	void yyerror();
 %}
 
-
-
 /* tokens */
 %token NOT
 %token ADD SUB
 %token RELATIONAL
 %token EQUAL EQUALS
-
 %token MULTIPLY DIVIDE OR AND MOD
 %token INTEGER IF THEN ELSE FOR  VOID RETURN BOOL TRU FAL STRUCT
 %token LBRACKET RBRACKET LBRACE RBRACE SEMICOLON DOT COMMA PRINT
 %token ID ICONST STRING SCONST
-
 %left NOT SUB ADD MULTIPLY DIVIDE
 %nonassoc EQUALS RELATIONAL
 %left DOT
-
 %start compiler
- 
-/* exp rules */
  
 %%
  
@@ -56,60 +49,28 @@ decs_y: dec_x COMMA decs_y | dec_x RBRACKET;
 
 dec_x: exp_t_rule ID;
 
-
 procedure_rules: 
 	ID LBRACKET exp_rule RBRACKET SEMICOLON | 
 	ID EQUAL ID LBRACKET exp_rule RBRACKET SEMICOLON 
 ;
 
-
 exp_rule: exp_rule exp | ;
-exp:
-	ICONST |
-	SCONST |
-	TRU |
-	FAL |
-	exp OPERATOR exp |
-    LBRACKET exp RBRACKET |
-	sign ICONST |
-    NOT exp |
-	ID |
-	ID DOT ID
-	
-;
+exp: ICONST | SCONST | TRU | FAL | exp OPERATOR exp | LBRACKET exp RBRACKET | sign ICONST | NOT exp | ID | ID DOT ID;
  
-
 exp_t_rule: INTEGER | STRING | BOOL;
-
 print_rules: PRINT LBRACKET SCONST RBRACKET SEMICOLON ;
-
-return_rules:
-	ID | ICONST | SCONST | VOID | ;
-
-return_t_rules:
-	INTEGER | STRING | BOOL | VOID;
-
+return_rules: ID | ICONST | SCONST | VOID | ;
+return_t_rules: INTEGER | STRING | BOOL | VOID;
 assign_rules:  ID EQUAL VOID SEMICOLON | ID EQUAL exp SEMICOLON ; 
-
 left_exp_rule : ID | ID DOT ID | 
-
 if_rule: if_rule if_rules | ;
-
 if_rules: IF LBRACKET boolean_rules RBRACKET THEN LBRACE statements RBRACE else_rules;
- 
 else_rules: ELSE LBRACE statements RBRACE | ; 
- 
 for_loop_rules: FOR LBRACKET assign_rules cond_rules SEMICOLON cond_rules RBRACKET LBRACE statements RBRACE;
-
 boolean_rules : cond_rules | ID | TRU | FAL ;
 
 cond_rules:
-	exp EQUALS exp |
-    exp RELATIONAL exp |
-	NOT exp |
-	exp OR exp  |
-	exp AND exp |
-	ID EQUAL exp 
+	exp EQUALS exp | exp RELATIONAL exp | NOT exp | exp OR exp  | exp AND exp | ID EQUAL exp 
 
 sign: ADD | SUB;
 OPERATOR : ADD | SUB | MULTIPLY | DIVIDE |MOD | AND | OR | NOT | EQUALS | RELATIONAL ;
@@ -128,7 +89,6 @@ int main (int argc, char *argv[]){
 	int parse;
 	yyin = fopen(argv[1], "r");
 	parse = yyparse();
-	printf("\nCompile: ",parse);
 	if(parse == 0){printf("VALID: compilation successful");}
 	else{printf("ERROR: compilation failed ");}
 	return parse;
