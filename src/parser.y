@@ -72,7 +72,7 @@ exp:
 	exp OPERATOR exp |
     LBRACKET exp RBRACKET |
 	sign ICONST |
-    NOTEQUAL exp |
+    NOT exp |
 	ID |
 	ID DOT ID
 	
