@@ -630,10 +630,10 @@ int yy_flex_debug = 1;
 
 static yyconst flex_int16_t yy_rule_linenum[39] =
     {   0,
-       36,   39,   40,   41,   42,   43,   44,   45,   46,   47,
-       48,   49,   50,   51,   53,   54,   55,   56,   57,   58,
-       59,   60,   61,   62,   63,   66,   67,   68,   69,   70,
-       71,   72,   74,   75,   77,   94,  100,  103
+       31,   34,   35,   36,   37,   38,   39,   40,   41,   42,
+       43,   44,   45,   46,   47,   48,   49,   50,   51,   52,
+       53,   54,   55,   56,   57,   58,   59,   60,   61,   62,
+       63,   64,   66,   67,   69,   86,   92,   95
     } ;
 
 /* The intent behind this definition is that it'll catch
@@ -653,11 +653,10 @@ char *yytext;
 	#include "parser.tab.h"
 	extern FILE *yyin;
 	extern FILE *yyout;
- 
 	void ret_print(char *token_type);
 	void yyerror();
 
-#line 661 "lex.yy.c"
+#line 660 "lex.yy.c"
 
 #define INITIAL 0
 #define ML_COMMENT 1
@@ -900,10 +899,10 @@ YY_DECL
 	register int yy_act;
     
 /* %% [7.0] user's declarations go here */
-#line 34 "lexer.l"
+#line 29 "lexer.l"
 
  
-#line 907 "lex.yy.c"
+#line 906 "lex.yy.c"
 
 	if ( !(yy_init) )
 		{
@@ -1019,185 +1018,184 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 36 "lexer.l"
+#line 31 "lexer.l"
 { } 
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 39 "lexer.l"
+#line 34 "lexer.l"
 { return STRUCT;} 
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 40 "lexer.l"
+#line 35 "lexer.l"
 { return INTEGER; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 41 "lexer.l"
+#line 36 "lexer.l"
 { return STRING; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 42 "lexer.l"
+#line 37 "lexer.l"
 { return VOID; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 43 "lexer.l"
+#line 38 "lexer.l"
 { return RETURN; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 44 "lexer.l"
+#line 39 "lexer.l"
 { return PRINT;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 45 "lexer.l"
+#line 40 "lexer.l"
 { return BOOL; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 46 "lexer.l"
+#line 41 "lexer.l"
 { return TRU; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 47 "lexer.l"
+#line 42 "lexer.l"
 { return FAL;} 
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 48 "lexer.l"
+#line 43 "lexer.l"
 { return FOR; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 49 "lexer.l"
+#line 44 "lexer.l"
 { return IF; }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 50 "lexer.l"
+#line 45 "lexer.l"
 { return ELSE; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 51 "lexer.l"
+#line 46 "lexer.l"
 { return THEN; } 
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 53 "lexer.l"
+#line 47 "lexer.l"
 { return ADD; }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 54 "lexer.l"
+#line 48 "lexer.l"
 { return SUB; }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 55 "lexer.l"
+#line 49 "lexer.l"
 { return MULTIPLY; }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 56 "lexer.l"
+#line 50 "lexer.l"
 { return DIVIDE; }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 57 "lexer.l"
+#line 51 "lexer.l"
 { return OR; }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 58 "lexer.l"
+#line 52 "lexer.l"
 { return NOT; }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 59 "lexer.l"
+#line 53 "lexer.l"
 { return AND; }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 60 "lexer.l"
+#line 54 "lexer.l"
 { return MOD; }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 61 "lexer.l"
+#line 55 "lexer.l"
 { return EQUALS; }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 62 "lexer.l"
+#line 56 "lexer.l"
 { return RELATIONAL; }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 63 "lexer.l"
+#line 57 "lexer.l"
 { return COMMA; }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 66 "lexer.l"
+#line 58 "lexer.l"
 { return LBRACKET; }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 67 "lexer.l"
+#line 59 "lexer.l"
 { return RBRACKET; }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 68 "lexer.l"
+#line 60 "lexer.l"
 { return LBRACE; }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 69 "lexer.l"
+#line 61 "lexer.l"
 { return RBRACE; }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 70 "lexer.l"
+#line 62 "lexer.l"
 { return SEMICOLON; }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 71 "lexer.l"
+#line 63 "lexer.l"
 { return DOT; }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 72 "lexer.l"
+#line 64 "lexer.l"
 { return EQUAL; }
 	YY_BREAK
 case 33:
 /* rule 33 can match eol */
 YY_RULE_SETUP
-#line 74 "lexer.l"
+#line 66 "lexer.l"
 { yylineno++; } 
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 75 "lexer.l"
+#line 67 "lexer.l"
 { /* ignore */ }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 77 "lexer.l"
+#line 69 "lexer.l"
 {
 						yylval = atoi(yytext) ;
 						if(  yylval > 32767 )
 						{
 							yyerror("ERROR: Integer OOB") ;
 				//			return INVALID;
-							
 						}
 						else if (yylval < -32768){
 							yyerror("ERROR: Integer OOB") ;
@@ -1211,7 +1209,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 94 "lexer.l"
+#line 86 "lexer.l"
 {
 					insert(yytext, strlen(yytext), UNDEF, yylineno);
 					return ID;
@@ -1219,13 +1217,13 @@ YY_RULE_SETUP
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 100 "lexer.l"
+#line 92 "lexer.l"
 { yyerror("ERROR: character not recognised"); }
 	YY_BREAK
 case 38:
 /* rule 38 can match eol */
 YY_RULE_SETUP
-#line 103 "lexer.l"
+#line 95 "lexer.l"
 { 
 					int present = 0;
 					for(int i = 0; yytext[i] != '\0'; i++)
@@ -1244,10 +1242,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 120 "lexer.l"
+#line 111 "lexer.l"
 ECHO;
 	YY_BREAK
-#line 1251 "lex.yy.c"
+#line 1249 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(ML_COMMENT):
 	yyterminate();
@@ -2382,6 +2380,6 @@ void yyfree (void * ptr )
 
 /* %ok-for-header */
 
-#line 120 "lexer.l"
+#line 111 "lexer.l"
 
 

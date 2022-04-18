@@ -559,14 +559,14 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    36,    36,    38,    38,    41,    42,    43,    46,    46,
-      49,    49,    49,    49,    49,    49,    50,    52,    54,    54,
-      55,    55,    57,    61,    62,    66,    66,    68,    69,    70,
-      71,    72,    73,    74,    75,    76,    77,    82,    82,    82,
-      84,    87,    87,    87,    87,    87,    90,    90,    90,    90,
-      92,    92,    96,    96,    98,   100,   100,   102,   104,   104,
-     104,   104,   107,   108,   109,   110,   111,   112,   114,   114,
-     115,   115,   115,   115,   115,   115,   115,   115,   115,   115
+       0,    29,    29,    31,    31,    34,    35,    36,    39,    39,
+      42,    42,    42,    42,    42,    42,    43,    45,    47,    47,
+      48,    48,    50,    53,    54,    57,    57,    58,    58,    58,
+      58,    58,    58,    58,    58,    58,    58,    60,    60,    60,
+      61,    62,    62,    62,    62,    62,    63,    63,    63,    63,
+      64,    64,    66,    66,    67,    68,    68,    69,    70,    70,
+      70,    70,    73,    73,    73,    73,    73,    73,    75,    75,
+      76,    76,    76,    76,    76,    76,    76,    76,    76,    76
 };
 #endif
 
@@ -1432,7 +1432,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 117 "parser.y"
+#line 78 "parser.y"
 
  
 void yyerror (){
@@ -1447,7 +1447,6 @@ int main (int argc, char *argv[]){
 	int parse;
 	yyin = fopen(argv[1], "r");
 	parse = yyparse();
-	printf("\nCompile: ",parse);
 	if(parse == 0){printf("VALID: compilation successful");}
 	else{printf("ERROR: compilation failed ");}
 	return parse;

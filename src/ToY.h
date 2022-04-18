@@ -14,13 +14,6 @@
 // hash table structure
 // and functionality for inserting and serching for entries
 
-void init_hash_table(); 
-unsigned int hash(char *key); 
-void insert(char *name, int len, int type, int lineno); 
-nodeList *lookup(char *name); 
-nodeList *lookup_scope(char *name, int scope); 
-void hide_scope(); 
-void incr_scope(); 
 
 
 typedef struct parameterStruct{
@@ -59,3 +52,11 @@ typedef struct nodeList{
 }nodeList;
  
 static nodeList **hash_table;
+
+void init_hash_table(); 
+unsigned int hash(char *key); 
+void insert(char *name, int len, int type, int lineno); 
+nodeList *lookup(char *name); 
+nodeList *lookup_scope(char *name, int scope); 
+void hide_scope(); 
+void incr_scope(); 
