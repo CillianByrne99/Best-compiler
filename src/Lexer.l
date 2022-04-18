@@ -8,25 +8,34 @@
 	#include "parser.tab.h"
 	extern FILE *yyin;
 	extern FILE *yyout;
+ 
 	void ret_print(char *token_type);
 	void yyerror();
 %}
  
 %x ML_COMMENT
+ 
 Int				  [0-9]
 DecInt 	   		  [1-9]{Int}* 
 MinusInt   		  [-]({Int}|{DecInt})
 Integer   		  {Int}|{DecInt}|{MinusInt}
+
 Comment    	   	  ([//]|[##])
+
 LineTerminator    \r|\n|\r\n
 WhiteSpace        [ \t\f]
+
 Alpha 			  [a-zA-Z_]
 Alnum			  {Alpha}|{Int}
 Identifier        {Alpha}+{Alnum}*
+
 String 			  \"([^"\\])*\"
+ 
 %%
+ 
 {Comment}				{ } 
  
+
 "struct"			    { return STRUCT;} 
 "int"					{ return INTEGER; }
 "string"				{ return STRING; }
@@ -40,6 +49,7 @@ String 			  \"([^"\\])*\"
 "if"					{ return IF; }
 "else"					{ return ELSE; }
 "then"					{ return THEN; } 
+ 
 "+"						{ return ADD; }
 "-"						{ return SUB; }
 "*"						{ return MULTIPLY; }
@@ -51,6 +61,8 @@ String 			  \"([^"\\])*\"
 "=="|"!="				{ return EQUALS; }
 ">"|"<"|">="|"<="		{ return RELATIONAL; }
 ","						{ return COMMA; }
+ 
+ 
 "("				{ return LBRACKET; }
 ")"				{ return RBRACKET; }
 "{"				{ return LBRACE; }
@@ -67,7 +79,8 @@ String 			  \"([^"\\])*\"
 						if(  yylval > 32767 )
 						{
 							yyerror("ERROR: Integer OOB") ;
-				//			return INVALID;		
+				//			return INVALID;
+							
 						}
 						else if (yylval < -32768){
 							yyerror("ERROR: Integer OOB") ;
@@ -78,13 +91,15 @@ String 			  \"([^"\\])*\"
 							return ICONST; 
 						} 
 				}
-
 {Identifier} 			{
 					insert(yytext, strlen(yytext), UNDEF, yylineno);
 					return ID;
 				}
+
+
 .				{ yyerror("ERROR: character not recognised"); }
 				
+
 {String} 		{ 
 					int present = 0;
 					for(int i = 0; yytext[i] != '\0'; i++)

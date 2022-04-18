@@ -649,7 +649,7 @@ char *yytext;
 	#include <stdio.h>
 	#include <stdlib.h>
 	#include <string.h>
-	#include "lex.h"
+	#include "ToY.h"
 	#include "parser.tab.h"
 	extern FILE *yyin;
 	extern FILE *yyout;
