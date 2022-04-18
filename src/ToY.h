@@ -13,32 +13,32 @@
 #define ARRAY_TYPE 5
 #define FUNCTION_TYPE 6
  
-/* how parameter is passed */
+/* how parameterStructeter is passed */
 #define BY_VALUE 1
 #define BY_REFER 2
  
-/* parameter struct */
-typedef struct Param{
+/* parameterStructeter struct */
+typedef struct parameterStruct{
     int par_type;
-    char param_name[MAXTOKENLEN];
+    char parameterStruct_name[MAXTOKENLEN];
     // to store value
     int ival; double fval; char *st_sval;
     int passing; // value or reference
-}Param;
+}parameterStruct;
  
 /* a linked list of references (lineno's) for each variable */
-typedef struct RefList{ 
+typedef struct listOfRefs{ 
     int lineno;
-    struct RefList *next;
+    struct listOfRefs *next;
     int type;
-}RefList;
+}listOfRefs;
  
 // struct that represents a list node
-typedef struct list_t{
+typedef struct nodeList{
     char st_name[MAXTOKENLEN];
     int st_size;
     int scope;
-    RefList *lines;
+    listOfRefs *lines;
     // to store value and sometimes more information
     int st_ival; double st_fval; char *st_sval;
     // type
@@ -47,22 +47,22 @@ typedef struct list_t{
     // array stuff
     int *i_vals; double *f_vals; char **s_vals;
     int array_size;
-    // function parameters
-    Param *parameters;
+    // function parameterStructeters
+    parameterStruct *parameterStructeters;
     int num_of_pars;
     // pointer to next item in the list
-    struct list_t *next;
-}list_t;
+    struct nodeList *next;
+}nodeList;
  
 /* the hash table */
-static list_t **hash_table;
+static nodeList **hash_table;
  
 // Function Declarations
 void init_hash_table(); // initialize hash table
 unsigned int hash(char *key); // hash function 
 void insert(char *name, int len, int type, int lineno); // insert entry
-list_t *lookup(char *name); // search for entry
-list_t *lookup_scope(char *name, int scope); // search for entry in scope
+nodeList *lookup(char *name); // search for entry
+nodeList *lookup_scope(char *name, int scope); // search for entry in scope
 void hide_scope(); // hide the current scope
 void incr_scope(); // go to next scope
 void ToY_dump(FILE *of); // dump file
