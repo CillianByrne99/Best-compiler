@@ -8,7 +8,6 @@
 	#include "parser.tab.h"
 	extern FILE *yyin;
 	extern FILE *yyout;
- 
 	void ret_print(char *token_type);
 	void yyerror();
 %}
@@ -68,8 +67,7 @@ String 			  \"([^"\\])*\"
 						if(  yylval > 32767 )
 						{
 							yyerror("ERROR: Integer OOB") ;
-				//			return INVALID;
-							
+				//			return INVALID;		
 						}
 						else if (yylval < -32768){
 							yyerror("ERROR: Integer OOB") ;
@@ -80,15 +78,13 @@ String 			  \"([^"\\])*\"
 							return ICONST; 
 						} 
 				}
+
 {Identifier} 			{
 					insert(yytext, strlen(yytext), UNDEF, yylineno);
 					return ID;
 				}
-
-
 .				{ yyerror("ERROR: character not recognised"); }
 				
-
 {String} 		{ 
 					int present = 0;
 					for(int i = 0; yytext[i] != '\0'; i++)
