@@ -128,7 +128,6 @@ int main (int argc, char *argv[]){
 	int parse;
 	yyin = fopen(argv[1], "r");
 	parse = yyparse();
-	printf("\nCompile: ",parse);
 	if(parse == 0){printf("VALID: compilation successful");}
 	else{printf("ERROR: compilation failed ");}
 	return parse;

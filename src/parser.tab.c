@@ -69,7 +69,7 @@
 /* First part of user prologue.  */
 #line 1 "parser.y"
 
-	#include "ToY.c"
+	#include "parse.c"
 	#include <stdio.h>
 	#include <stdlib.h>
 	#include <string.h>
@@ -1447,7 +1447,6 @@ int main (int argc, char *argv[]){
 	int parse;
 	yyin = fopen(argv[1], "r");
 	parse = yyparse();
-	printf("\nCompile: ",parse);
 	if(parse == 0){printf("VALID: compilation successful");}
 	else{printf("ERROR: compilation failed ");}
 	return parse;
