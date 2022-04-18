@@ -1,8 +1,6 @@
-
-
-int main()
-{
-    printf("Hello World")
-
-    return 0;
+int test(int valid) {
+    int y;
+    y = valid;
+    return valid;
 }
+
