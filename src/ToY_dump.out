@@ -1,7 +1,5 @@
 ------------ ------ ------------
 Name         Type   Line Numbers
 ------------ ------ -------------
-isit         undef     1 
-bar          undef     3 
-maybe        undef     1 
-y            undef     2    3    4 
+test         undef     1 
+a            undef     2 

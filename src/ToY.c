@@ -8,7 +8,7 @@ int cur_scope = 0;
  
 void init_hash_table(){
     int i; 
-    hash_table = malloc(SIZE * sizeof(list_t*));
+    hash_table = malloc(SIZE * sizeof(nodeList*));
     for(i = 0; i < SIZE; i++) hash_table[i] = NULL;
 }
  
@@ -21,18 +21,18 @@ unsigned int hash(char *key){
  
 void insert(char *name, int len, int type, int lineno){
     unsigned int hashval = hash(name);
-    list_t *l = hash_table[hashval];
+    nodeList *l = hash_table[hashval];
     
     while ((l != NULL) && (strcmp(name,l->st_name) != 0)) l = l->next;
     
     /* variable not yet in table */
     if (l == NULL){
-        l = (list_t*) malloc(sizeof(list_t));
+        l = (nodeList*) malloc(sizeof(nodeList));
         strncpy(l->st_name, name, len);  
         /* add to hashtable */
         l->st_type = type;
         l->scope = cur_scope;
-        l->lines = (RefList*) malloc(sizeof(RefList));
+        l->lines = (listOfRefs*) malloc(sizeof(listOfRefs));
         l->lines->lineno = lineno;
         l->lines->next = NULL;
         l->next = hash_table[hashval];
@@ -42,26 +42,26 @@ void insert(char *name, int len, int type, int lineno){
     /* found in table, so just add line number */
     else{
         l->scope = cur_scope;
-        RefList *t = l->lines;
+        listOfRefs *t = l->lines;
         while (t->next != NULL) t = t->next;
         /* add linenumber to reference list */
-        t->next = (RefList*) malloc(sizeof(RefList));
+        t->next = (listOfRefs*) malloc(sizeof(listOfRefs));
         t->next->lineno = lineno;
         t->next->next = NULL;
         printf("Found %s again at line %d!\n", name, lineno);
     }
 }
  
-list_t *lookup(char *name){ /* return symbol if found or NULL if not found */
+nodeList *lookup(char *name){ /* return symbol if found or NULL if not found */
     unsigned int hashval = hash(name);
-    list_t *l = hash_table[hashval];
+    nodeList *l = hash_table[hashval];
     while ((l != NULL) && (strcmp(name,l->st_name) != 0)) l = l->next;
     return l; // NULL is not found
 }
  
-list_t *lookup_scope(char *name, int scope){ /* return symbol if found or NULL if not found */
+nodeList *lookup_scope(char *name, int scope){ /* return symbol if found or NULL if not found */
     unsigned int hashval = hash(name);
-    list_t *l = hash_table[hashval];
+    nodeList *l = hash_table[hashval];
     while ((l != NULL) && (strcmp(name,l->st_name) != 0) && (scope != l->scope)) l = l->next;
     return l; // NULL is not found
 }
@@ -82,9 +82,9 @@ void ToY_dump(FILE * of){
   fprintf(of,"------------ ------ -------------\n");
   for (i=0; i < SIZE; ++i){ 
     if (hash_table[i] != NULL){ 
-        list_t *l = hash_table[i];
+        nodeList *l = hash_table[i];
         while (l != NULL){ 
-            RefList *t = l->lines;
+            listOfRefs *t = l->lines;
             fprintf(of,"%-12s ",l->st_name);
             if (l->st_type == INT_TYPE) fprintf(of,"%-7s","int");
             else if (l->st_type == REAL_TYPE) fprintf(of,"%-7s","real");
