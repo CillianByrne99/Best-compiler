@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "ToY.h"
+#include "compiler.h"
  
 /* current scope */
 int cur_scope = 0;
