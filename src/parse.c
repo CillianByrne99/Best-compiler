@@ -17,6 +17,7 @@ unsigned int hash(char *key){
     hashval += key[0] % 11 + (key[0] << 3) - key[0];
     return hashval % SIZE;
 }
+
 // adds a node to the hash table
 void insert(char *name, int len, int type, int lineno){
     unsigned int hashval = hash(name);
@@ -41,7 +42,6 @@ void insert(char *name, int len, int type, int lineno){
         t->next = (listOfRefs*) malloc(sizeof(listOfRefs));
         t->next->lineno = lineno;
         t->next->next = NULL;
-        printf("Testing your input!\n");
     }
 }
 
