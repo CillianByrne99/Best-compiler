@@ -1,5 +1,3 @@
-int isit(int maybe) {
-    int y;
-    y = bar;
-    return y;
+void test(){
+    int a=1;
 }
