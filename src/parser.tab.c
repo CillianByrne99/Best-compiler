@@ -1441,13 +1441,12 @@ void yyerror (){
 
 
 int main (int argc, char *argv[]){
-	init_hash_table();
+	table();
 	int parse;
 	yyin = fopen(argv[1], "r");
 	parse = yyparse();
 	fclose(yyin);
 	yyout = fopen("ToY_dump.out", "w");
-	ToY_dump(yyout);
 	fclose(yyout);
 	printf("\nCompile: ",parse);
 	if(parse == 0){printf("VALID: compilation successful");}

@@ -6,7 +6,7 @@
 /* current scope */
 int cur_scope = 0;
  
-void init_hash_table(){
+void table(){
     int i; 
     hash_table = malloc(SIZE * sizeof(nodeList*));
     for(i = 0; i < SIZE; i++) hash_table[i] = NULL;
@@ -74,7 +74,7 @@ void incr_scope(){ /* go to next scope */
     cur_scope++;
 }
  
-/* print to stdout by default */ 
+/* print to stdout by default 
 void ToY_dump(FILE * of){  
   int i;
   fprintf(of,"------------ ------ ------------\n");
@@ -114,3 +114,4 @@ void ToY_dump(FILE * of){
     }
   }
 }
+*/
