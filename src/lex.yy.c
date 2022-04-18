@@ -462,13 +462,13 @@ static yyconst flex_int16_t yy_accept[105] =
        35,   35,   30,   24,   32,   24,   37,   37,   37,   37,
        37,   37,   37,   37,   37,   37,   37,   37,   37,   37,
        28,   29,   39,   33,   23,    0,   36,   35,   35,   35,
-       24,   37,   37,   37,   37,   37,   37,   37,    9,   37,
+       24,   37,   37,   37,   37,   37,   37,   37,   12,   37,
        37,   37,   19,   37,   37,   37,   37,   37,   37,   35,
-       21,   37,   37,   37,    8,    3,   22,   20,   37,   37,
-       37,   37,   37,   37,    4,   11,   37,   37,   37,   37,
-       37,   10,    6,   12,    7,   37,   37,   37,   37,   14,
+       21,   37,   37,   37,   11,    3,   22,   20,   37,   37,
+       37,   37,   37,   37,    8,   13,   37,   37,   37,   37,
+       37,   14,    9,    5,   10,   37,   37,   37,   37,    7,
 
-       13,    5,    2,    0
+        6,    4,    2,    0
     } ;
 
 static yyconst flex_int32_t yy_ec[256] =
@@ -633,7 +633,7 @@ static yyconst flex_int16_t yy_rule_linenum[39] =
        36,   39,   40,   41,   42,   43,   44,   45,   46,   47,
        48,   49,   50,   51,   53,   54,   55,   56,   57,   58,
        59,   60,   61,   62,   63,   66,   67,   68,   69,   70,
-       71,   72,   74,   75,   77,   95,  111,  118
+       71,   72,   74,   75,   77,   97,  112,  118
     } ;
 
 /* The intent behind this definition is that it'll catch
@@ -1035,107 +1035,107 @@ YY_RULE_SETUP
 case 4:
 YY_RULE_SETUP
 #line 41 "lexer.l"
-{ return BOOL; }
+{ return STRING; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
 #line 42 "lexer.l"
-{ return STRING; }
+{ return VOID; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
 #line 43 "lexer.l"
-{ return TRU; }
+{ return RETURN; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
 #line 44 "lexer.l"
-{ return FAL;} 
+{ return PRINT;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
 #line 45 "lexer.l"
-{ return FOR; }
+{ return BOOL; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
 #line 46 "lexer.l"
-{ return IF; }
+{ return TRU; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
 #line 47 "lexer.l"
-{ return THEN; }
+{ return FAL;} 
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
 #line 48 "lexer.l"
-{ return ELSE; }
+{ return FOR; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
 #line 49 "lexer.l"
-{ return VOID; }
+{ return IF; }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
 #line 50 "lexer.l"
-{ return RETURN; }
+{ return ELSE; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
 #line 51 "lexer.l"
-{ return PRINT;} 
+{ return THEN; } 
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
 #line 53 "lexer.l"
-{ return ADDOPERATOR; }
+{ return ADD; }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
 #line 54 "lexer.l"
-{ return SUBOPERATOR; }
+{ return SUB; }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
 #line 55 "lexer.l"
-{ return MULOPERATOR; }
+{ return MULTIPLY; }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
 #line 56 "lexer.l"
-{ return DIVOPERATOR; }
+{ return DIVIDE; }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
 #line 57 "lexer.l"
-{ return OROPERATOR; }
+{ return OR; }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
 #line 58 "lexer.l"
-{ return NOTOPERATOR; }
+{ return NOT; }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
 #line 59 "lexer.l"
-{ return ANDOPERATOR; }
+{ return AND; }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
 #line 60 "lexer.l"
-{ return MODOPERATOR; }
+{ return MOD; }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
 #line 61 "lexer.l"
-{ return EQUOPERATOR; }
+{ return EQUALS; }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
 #line 62 "lexer.l"
-{ return RELOPERATOR; }
+{ return RELATIONAL; }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
@@ -1212,7 +1212,7 @@ YY_RULE_SETUP
 case 36:
 /* rule 36 can match eol */
 YY_RULE_SETUP
-#line 95 "lexer.l"
+#line 97 "lexer.l"
 { 
 					int present = 0;
 					for(int i = 0; yytext[i] != '\0'; i++)
@@ -1231,9 +1231,8 @@ YY_RULE_SETUP
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 111 "lexer.l"
+#line 112 "lexer.l"
 {
-					// insert identifier into symbol table
 					insert(yytext, strlen(yytext), UNDEF, yylineno);
 					return ID;
 				}
@@ -1248,7 +1247,7 @@ YY_RULE_SETUP
 #line 120 "lexer.l"
 ECHO;
 	YY_BREAK
-#line 1252 "lex.yy.c"
+#line 1251 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(ML_COMMENT):
 	yyterminate();

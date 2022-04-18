@@ -13,18 +13,18 @@
 
 
 /* token definition */
-%token NOTOPERATOR
-%token ADDOPERATOR SUBOPERATOR 
-%token RELOPERATOR
-%token EQUAL EQUOPERATOR
+%token NOT
+%token ADD SUB
+%token RELATIONAL
+%token EQUAL EQUALS
 
-%token MULOPERATOR DIVOPERATOR  OROPERATOR  ANDOPERATOR MODOPERATOR
+%token MULTIPLY DIVIDE OR AND MOD
 %token INTEGER IF THEN ELSE FOR  VOID RETURN BOOL TRU FAL STRUCT
 %token LPAREN RPAREN LBRACE RBRACE SEMI DOT COMMA PRINT
 %token ID ICONST STRING SCONST
 
-%left NOTOPERATOR SUBOPERATOR ADDOPERATOR  MULOPERATOR DIVOPERATOR 
-%nonassoc EQUOPERATOR RELOPERATOR
+%left NOT SUB ADD MULTIPLY DIVIDE
+%nonassoc EQUALS RELATIONAL
 %left DOT
 
 %start program
@@ -72,7 +72,7 @@ expression:
 	expression OPERATOR expression |
     LPAREN expression RPAREN |
 	sign ICONST |
-    NOTOPERATOR expression |
+    NOT expression |
 	ID |
 	ID DOT ID
 	
@@ -104,15 +104,15 @@ for_statement: FOR LPAREN assignment conditionals SEMI conditionals RPAREN LBRAC
 bool_exp : conditionals | ID | TRU | FAL ;
 
 conditionals:
-	expression EQUOPERATOR expression |
-    expression RELOPERATOR expression |
-	NOTOPERATOR expression |
-	expression OROPERATOR expression  |
-	expression ANDOPERATOR expression |
+	expression EQUALS expression |
+    expression RELATIONAL expression |
+	NOT expression |
+	expression OR expression  |
+	expression AND expression |
 	ID EQUAL expression 
 
-sign: ADDOPERATOR | SUBOPERATOR;
-OPERATOR : ADDOPERATOR | SUBOPERATOR | MULOPERATOR | DIVOPERATOR |MODOPERATOR | ANDOPERATOR | OROPERATOR | NOTOPERATOR | EQUOPERATOR | RELOPERATOR ;
+sign: ADD | SUB;
+OPERATOR : ADD | SUB | MULTIPLY | DIVIDE |MOD | AND | OR | NOT | EQUALS | RELATIONAL ;
 
  
 %%

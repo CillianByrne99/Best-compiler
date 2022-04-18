@@ -110,17 +110,17 @@ enum yysymbol_kind_t
   YYSYMBOL_YYEOF = 0,                      /* "end of file"  */
   YYSYMBOL_YYerror = 1,                    /* error  */
   YYSYMBOL_YYUNDEF = 2,                    /* "invalid token"  */
-  YYSYMBOL_NOTOPERATOR = 3,                /* NOTOPERATOR  */
-  YYSYMBOL_ADDOPERATOR = 4,                /* ADDOPERATOR  */
-  YYSYMBOL_SUBOPERATOR = 5,                /* SUBOPERATOR  */
-  YYSYMBOL_RELOPERATOR = 6,                /* RELOPERATOR  */
+  YYSYMBOL_NOT = 3,                        /* NOT  */
+  YYSYMBOL_ADD = 4,                        /* ADD  */
+  YYSYMBOL_SUB = 5,                        /* SUB  */
+  YYSYMBOL_RELATIONAL = 6,                 /* RELATIONAL  */
   YYSYMBOL_EQUAL = 7,                      /* EQUAL  */
-  YYSYMBOL_EQUOPERATOR = 8,                /* EQUOPERATOR  */
-  YYSYMBOL_MULOPERATOR = 9,                /* MULOPERATOR  */
-  YYSYMBOL_DIVOPERATOR = 10,               /* DIVOPERATOR  */
-  YYSYMBOL_OROPERATOR = 11,                /* OROPERATOR  */
-  YYSYMBOL_ANDOPERATOR = 12,               /* ANDOPERATOR  */
-  YYSYMBOL_MODOPERATOR = 13,               /* MODOPERATOR  */
+  YYSYMBOL_EQUALS = 8,                     /* EQUALS  */
+  YYSYMBOL_MULTIPLY = 9,                   /* MULTIPLY  */
+  YYSYMBOL_DIVIDE = 10,                    /* DIVIDE  */
+  YYSYMBOL_OR = 11,                        /* OR  */
+  YYSYMBOL_AND = 12,                       /* AND  */
+  YYSYMBOL_MOD = 13,                       /* MOD  */
   YYSYMBOL_INTEGER = 14,                   /* INTEGER  */
   YYSYMBOL_IF = 15,                        /* IF  */
   YYSYMBOL_THEN = 16,                      /* THEN  */
@@ -582,12 +582,11 @@ static const char *yysymbol_name (yysymbol_kind_t yysymbol) YY_ATTRIBUTE_UNUSED;
    First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
 static const char *const yytname[] =
 {
-  "\"end of file\"", "error", "\"invalid token\"", "NOTOPERATOR",
-  "ADDOPERATOR", "SUBOPERATOR", "RELOPERATOR", "EQUAL", "EQUOPERATOR",
-  "MULOPERATOR", "DIVOPERATOR", "OROPERATOR", "ANDOPERATOR", "MODOPERATOR",
-  "INTEGER", "IF", "THEN", "ELSE", "FOR", "VOID", "RETURN", "BOOL", "TRU",
-  "FAL", "STRUCT", "LPAREN", "RPAREN", "LBRACE", "RBRACE", "SEMI", "DOT",
-  "COMMA", "PRINT", "ID", "ICONST", "STRING", "SCONST", "$accept",
+  "\"end of file\"", "error", "\"invalid token\"", "NOT", "ADD", "SUB",
+  "RELATIONAL", "EQUAL", "EQUALS", "MULTIPLY", "DIVIDE", "OR", "AND",
+  "MOD", "INTEGER", "IF", "THEN", "ELSE", "FOR", "VOID", "RETURN", "BOOL",
+  "TRU", "FAL", "STRUCT", "LPAREN", "RPAREN", "LBRACE", "RBRACE", "SEMI",
+  "DOT", "COMMA", "PRINT", "ID", "ICONST", "STRING", "SCONST", "$accept",
   "program", "procedure_declarations", "procedure_declaration",
   "statements", "statement", "declaration", "declarations_p",
   "declarations_s", "declaration_p", "procedure_calls", "expressions",
@@ -1241,7 +1240,7 @@ yyreduce:
   switch (yyn)
     {
 
-#line 1245 "parser.tab.c"
+#line 1244 "parser.tab.c"
 
       default: break;
     }
