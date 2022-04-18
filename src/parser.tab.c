@@ -145,29 +145,29 @@ enum yysymbol_kind_t
   YYSYMBOL_STRING = 35,                    /* STRING  */
   YYSYMBOL_SCONST = 36,                    /* SCONST  */
   YYSYMBOL_YYACCEPT = 37,                  /* $accept  */
-  YYSYMBOL_program = 38,                   /* program  */
-  YYSYMBOL_procedure_declarations = 39,    /* procedure_declarations  */
-  YYSYMBOL_procedure_declaration = 40,     /* procedure_declaration  */
+  YYSYMBOL_compiler = 38,                  /* compiler  */
+  YYSYMBOL_run_decs = 39,                  /* run_decs  */
+  YYSYMBOL_run_dec_rules = 40,             /* run_dec_rules  */
   YYSYMBOL_statements = 41,                /* statements  */
   YYSYMBOL_statement = 42,                 /* statement  */
-  YYSYMBOL_declaration = 43,               /* declaration  */
-  YYSYMBOL_declarations_p = 44,            /* declarations_p  */
-  YYSYMBOL_declarations_s = 45,            /* declarations_s  */
-  YYSYMBOL_declaration_p = 46,             /* declaration_p  */
-  YYSYMBOL_procedure_calls = 47,           /* procedure_calls  */
-  YYSYMBOL_expressions = 48,               /* expressions  */
-  YYSYMBOL_expression = 49,                /* expression  */
-  YYSYMBOL_type = 50,                      /* type  */
-  YYSYMBOL_prints = 51,                    /* prints  */
-  YYSYMBOL_returns = 52,                   /* returns  */
-  YYSYMBOL_return_type = 53,               /* return_type  */
-  YYSYMBOL_assignment = 54,                /* assignment  */
-  YYSYMBOL_if_statements = 55,             /* if_statements  */
-  YYSYMBOL_if_statement = 56,              /* if_statement  */
-  YYSYMBOL_else_part = 57,                 /* else_part  */
-  YYSYMBOL_for_statement = 58,             /* for_statement  */
-  YYSYMBOL_bool_exp = 59,                  /* bool_exp  */
-  YYSYMBOL_conditionals = 60,              /* conditionals  */
+  YYSYMBOL_dec_rules = 43,                 /* dec_rules  */
+  YYSYMBOL_decs_x = 44,                    /* decs_x  */
+  YYSYMBOL_decs_y = 45,                    /* decs_y  */
+  YYSYMBOL_dec_x = 46,                     /* dec_x  */
+  YYSYMBOL_procedure_rules = 47,           /* procedure_rules  */
+  YYSYMBOL_exp_rule = 48,                  /* exp_rule  */
+  YYSYMBOL_exp = 49,                       /* exp  */
+  YYSYMBOL_exp_t_rule = 50,                /* exp_t_rule  */
+  YYSYMBOL_print_rules = 51,               /* print_rules  */
+  YYSYMBOL_return_rules = 52,              /* return_rules  */
+  YYSYMBOL_return_t_rules = 53,            /* return_t_rules  */
+  YYSYMBOL_assign_rules = 54,              /* assign_rules  */
+  YYSYMBOL_if_rule = 55,                   /* if_rule  */
+  YYSYMBOL_if_rules = 56,                  /* if_rules  */
+  YYSYMBOL_else_rules = 57,                /* else_rules  */
+  YYSYMBOL_for_loop_rules = 58,            /* for_loop_rules  */
+  YYSYMBOL_boolean_rules = 59,             /* boolean_rules  */
+  YYSYMBOL_cond_rules = 60,                /* cond_rules  */
   YYSYMBOL_sign = 61,                      /* sign  */
   YYSYMBOL_OPERATOR = 62                   /* OPERATOR  */
 };
@@ -587,12 +587,11 @@ static const char *const yytname[] =
   "MOD", "INTEGER", "IF", "THEN", "ELSE", "FOR", "VOID", "RETURN", "BOOL",
   "TRU", "FAL", "STRUCT", "LBRACKET", "RBRACKET", "LBRACE", "RBRACE",
   "SEMICOLON", "DOT", "COMMA", "PRINT", "ID", "ICONST", "STRING", "SCONST",
-  "$accept", "program", "procedure_declarations", "procedure_declaration",
-  "statements", "statement", "declaration", "declarations_p",
-  "declarations_s", "declaration_p", "procedure_calls", "expressions",
-  "expression", "type", "prints", "returns", "return_type", "assignment",
-  "if_statements", "if_statement", "else_part", "for_statement",
-  "bool_exp", "conditionals", "sign", "OPERATOR", YY_NULLPTR
+  "$accept", "compiler", "run_decs", "run_dec_rules", "statements",
+  "statement", "dec_rules", "decs_x", "decs_y", "dec_x", "procedure_rules",
+  "exp_rule", "exp", "exp_t_rule", "print_rules", "return_rules",
+  "return_t_rules", "assign_rules", "if_rule", "if_rules", "else_rules",
+  "for_loop_rules", "boolean_rules", "cond_rules", "sign", "OPERATOR", YY_NULLPTR
 };
 
 static const char *
@@ -616,14 +615,14 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int16 yypact[] =
 {
-      66,   -80,   -80,   -80,   -26,   -80,    27,   -80,    66,   -19,
-      19,   -80,   -80,    22,    -3,    17,   -80,   -80,   -80,   -80,
-      55,    33,    48,    49,   -23,   -80,    -3,   -80,   181,   181,
-     -80,    -3,   -80,    35,    23,    52,    29,    54,   181,   -80,
-     -80,    51,   -80,   -80,    74,   -80,    65,   -80,    62,   -80,
+      66,   -80,   -80,   -80,   -26,   -80,    46,   -80,    66,   -19,
+       2,   -80,   -80,    22,    -3,    17,   -80,   -80,   -80,   -80,
+     -23,    33,    48,    49,    27,   -80,    -3,   -80,   181,   181,
+     -80,    -3,   -80,    35,    23,    58,    29,    56,   181,   -80,
+     -80,    53,   -80,   -80,    74,   -80,    65,   -80,    62,   -80,
      -80,   -80,   -80,    70,    64,     1,   -80,   -80,   -80,    75,
       81,   -80,   -80,   100,   108,   -80,    82,   131,   -80,   -80,
-      85,   -80,   -80,   131,    28,   -80,   -80,   169,    88,    45,
+      85,   -80,   -80,   131,    52,   -80,   -80,   169,    88,    45,
      -80,   135,    69,   131,    15,   219,    94,    95,    98,   137,
      -80,   180,   -80,    92,   -80,   -80,   -80,   -80,   -80,   -80,
      -80,   -80,   -80,   -80,   -80,   131,   -80,   117,   230,   121,
@@ -676,15 +675,15 @@ static const yytype_uint8 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int16 yytable[] =
 {
-      46,    77,   113,    30,    67,    68,    69,    10,    31,    58,
+      46,    77,   113,    25,    67,    68,    69,    10,    26,    58,
       97,    16,    98,    89,    13,   101,   102,   103,    17,    91,
-      70,   115,   115,    71,    72,   108,    73,    11,    77,   114,
+      70,   115,   115,    71,    72,   108,    73,    14,    77,   114,
      -64,    16,    18,   -64,    74,    75,    55,    76,    17,    24,
-     -59,   133,    49,    22,    93,    93,    14,    15,    67,    68,
-      69,   125,    18,    92,    56,    24,    50,    51,    93,    52,
+     -59,   133,    49,    22,    93,    93,    11,    15,    67,    68,
+      69,   125,    18,    30,    56,    24,    50,    51,    31,    52,
       48,   128,   129,   130,   131,   132,    27,    71,    72,   108,
-      73,   107,    67,    68,    69,    28,    29,    54,    88,    75,
-       1,    76,    57,    25,    59,     2,    26,     3,    70,    60,
+      73,   107,    67,    68,    69,    28,    29,    92,    88,    75,
+       1,    76,    93,    54,    57,     2,    59,     3,    70,    60,
        4,    71,    72,    62,    73,    63,    67,    68,    69,    65,
       66,     5,    88,    75,    80,    76,    81,    82,    87,   140,
      141,    83,    68,    69,    90,    71,    72,   147,    73,   134,
@@ -707,13 +706,13 @@ static const yytype_int16 yycheck[] =
 {
       29,    55,    81,    26,     3,     4,     5,    33,    31,    38,
        6,    14,     8,    67,    33,    11,    12,    13,    21,    73,
-      19,     7,     7,    22,    23,    79,    25,     0,    82,    83,
+      19,     7,     7,    22,    23,    79,    25,    25,    82,    83,
       26,    14,    35,    29,    33,    34,     7,    36,    21,    15,
-      26,   120,    19,    26,    30,    30,    27,    25,     3,     4,
-       5,   105,    35,    25,    25,    31,    33,    34,    30,    36,
+      26,   120,    19,    26,    30,    30,     0,    25,     3,     4,
+       5,   105,    35,    26,    25,    31,    33,    34,    31,    36,
       25,   115,   116,   117,   118,   119,    33,    22,    23,   123,
       25,    26,     3,     4,     5,    27,    27,    25,    33,    34,
-      14,    36,    28,    28,    33,    19,    31,    21,    19,    15,
+      14,    36,    30,    25,    28,    19,    33,    21,    19,    15,
       24,    22,    23,    28,    25,    33,     3,     4,     5,    29,
       36,    35,    33,    34,    29,    36,    25,     7,    26,   138,
      139,     3,     4,     5,    29,    22,    23,   146,    25,    26,
@@ -737,8 +736,8 @@ static const yytype_int16 yycheck[] =
 static const yytype_int8 yystos[] =
 {
        0,    14,    19,    21,    24,    35,    38,    39,    40,    53,
-      33,     0,    39,    33,    27,    25,    14,    21,    35,    45,
-      46,    50,    26,    44,    46,    28,    31,    33,    27,    27,
+      33,     0,    39,    33,    25,    25,    14,    21,    35,    45,
+      46,    50,    26,    44,    46,    26,    31,    33,    27,    27,
       26,    31,    45,    18,    20,    32,    33,    41,    42,    43,
       47,    50,    51,    54,    55,    58,    41,    44,    25,    19,
       33,    34,    36,    52,    25,     7,    25,    28,    41,    33,
@@ -1240,7 +1239,7 @@ yyreduce:
   switch (yyn)
     {
 
-#line 1244 "parser.tab.c"
+#line 1243 "parser.tab.c"
 
       default: break;
     }
@@ -1433,39 +1432,24 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 118 "parser.y"
+#line 117 "parser.y"
 
  
-void yyerror ()
-{
-   fprintf(stderr, "Syntax Error at line \n");
+void yyerror (){
+   fprintf(stderr, "ERROR: cannot compile line- \n");
 }
 
 
 int main (int argc, char *argv[]){
-
-	// initialize symbol table
 	init_hash_table();
- 
-	// parsing
-	int flag;
+	int parse;
 	yyin = fopen(argv[1], "r");
-	flag = yyparse();
+	parse = yyparse();
 	fclose(yyin);
- 
-	// symbol table dump
-	yyout = fopen("ToY_dump.out", "w");
-	ToY_dump(yyout);
+	yyout = fopen("toy_output.out", toy_output(yyout);
 	fclose(yyout);
-
-	printf("\n\nProgram: ",flag);
-
-	if(flag == 0){
-		printf("VALID\n\n\n");
-	}
-	else{
-		printf("ERROR\n\n\n");
-	}
-	
-	return flag;
+	printf("\nCompile: ",parse);
+	if(parse == 0){printf("VALID: compilation successful");}
+	else{printf("ERROR: compilation failed");}
+	return parse;
 }

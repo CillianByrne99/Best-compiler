@@ -1,13 +1,13 @@
 Nonterminals useless in grammar
 
-    lexp
+    left_exp_rule
 
 
 Rules useless in grammar
 
-   79 lexp: ID
-   80     | ID DOT ID
-   81     | ε
+   79 left_exp_rule: ID
+   80              | ID DOT ID
+   81              | ε
 
 
 State 28 conflicts: 7 shift/reduce, 1 reduce/reduce
@@ -29,96 +29,96 @@ State 146 conflicts: 7 shift/reduce, 1 reduce/reduce
 
 Grammar
 
-    0 $accept: program $end
+    0 $accept: compiler $end
 
-    1 program: procedure_declarations
+    1 compiler: run_decs
 
-    2 procedure_declarations: procedure_declaration procedure_declarations
-    3                       | ε
+    2 run_decs: run_dec_rules run_decs
+    3         | ε
 
-    4 procedure_declaration: return_type ID LBRACKET declarations_p LBRACE statements RBRACE
-    5                      | return_type ID LBRACKET RBRACKET LBRACE statements RBRACE
-    6                      | STRUCT ID LBRACE declarations_s
+    4 run_dec_rules: return_t_rules ID LBRACKET decs_x LBRACE statements RBRACE
+    5              | return_t_rules ID LBRACKET RBRACKET LBRACE statements RBRACE
+    6              | STRUCT ID LBRACKET decs_y
 
     7 statements: statement statements
     8           | ε
 
-    9 statement: if_statements
-   10          | for_statement
-   11          | assignment
-   12          | prints
-   13          | declaration
-   14          | procedure_calls
-   15          | RETURN returns SEMICOLON
+    9 statement: if_rule
+   10          | for_loop_rules
+   11          | assign_rules
+   12          | print_rules
+   13          | dec_rules
+   14          | procedure_rules
+   15          | RETURN return_rules SEMICOLON
 
-   16 declaration: type ID SEMICOLON
+   16 dec_rules: exp_t_rule ID SEMICOLON
 
-   17 declarations_p: declaration_p COMMA declarations_p
-   18               | declaration_p RBRACKET
+   17 decs_x: dec_x COMMA decs_x
+   18       | dec_x RBRACKET
 
-   19 declarations_s: declaration_p COMMA declarations_s
-   20               | declaration_p RBRACE
+   19 decs_y: dec_x COMMA decs_y
+   20       | dec_x RBRACKET
 
-   21 declaration_p: type ID
+   21 dec_x: exp_t_rule ID
 
-   22 procedure_calls: ID LBRACKET expressions RBRACKET SEMICOLON
-   23                | ID EQUAL ID LBRACKET expressions RBRACKET SEMICOLON
+   22 procedure_rules: ID LBRACKET exp_rule RBRACKET SEMICOLON
+   23                | ID EQUAL ID LBRACKET exp_rule RBRACKET SEMICOLON
 
-   24 expressions: expressions expression
-   25            | ε
+   24 exp_rule: exp_rule exp
+   25         | ε
 
-   26 expression: ICONST
-   27           | SCONST
-   28           | TRU
-   29           | FAL
-   30           | expression OPERATOR expression
-   31           | LBRACKET expression RBRACKET
-   32           | sign ICONST
-   33           | NOT expression
-   34           | ID
-   35           | ID DOT ID
+   26 exp: ICONST
+   27    | SCONST
+   28    | TRU
+   29    | FAL
+   30    | exp OPERATOR exp
+   31    | LBRACKET exp RBRACKET
+   32    | sign ICONST
+   33    | NOT exp
+   34    | ID
+   35    | ID DOT ID
 
-   36 type: INTEGER
-   37     | STRING
-   38     | BOOL
+   36 exp_t_rule: INTEGER
+   37           | STRING
+   38           | BOOL
 
-   39 prints: PRINT LBRACKET SCONST RBRACKET SEMICOLON
+   39 print_rules: PRINT LBRACKET SCONST RBRACKET SEMICOLON
 
-   40 returns: ID
-   41        | ICONST
-   42        | SCONST
-   43        | VOID
-   44        | ε
+   40 return_rules: ID
+   41             | ICONST
+   42             | SCONST
+   43             | VOID
+   44             | ε
 
-   45 return_type: INTEGER
-   46            | STRING
-   47            | BOOL
-   48            | VOID
+   45 return_t_rules: INTEGER
+   46               | STRING
+   47               | BOOL
+   48               | VOID
 
-   49 assignment: ID EQUAL VOID SEMICOLON
-   50           | ID EQUAL expression SEMICOLON
+   49 assign_rules: ID EQUAL VOID SEMICOLON
+   50             | ID EQUAL exp SEMICOLON
 
-   51 if_statements: if_statements if_statement
-   52              | ε
+   51 if_rule: if_rule if_rules
+   52        | ε
 
-   53 if_statement: IF LBRACKET bool_exp RBRACKET THEN LBRACE statements RBRACE else_part
+   53 if_rules: IF LBRACKET boolean_rules RBRACKET THEN LBRACE statements RBRACE else_rules
 
-   54 else_part: ELSE LBRACE statements RBRACE
-   55          | ε
+   54 else_rules: ELSE LBRACE statements RBRACE
+   55           | ε
 
-   56 for_statement: FOR LBRACKET assignment conditionals SEMICOLON conditionals RBRACKET LBRACE statements RBRACE
+   56 for_loop_rules: FOR LBRACKET assign_rules cond_rules SEMICOLON cond_rules RBRACKET LBRACE statements RBRACE
 
-   57 bool_exp: conditionals
-   58         | ID
-   59         | TRU
-   60         | FAL
+   57 boolean_rules: cond_rules
+   58              | ID
+   59              | TRU
+   60              | FAL
 
-   61 conditionals: expression EQUALS expression
-   62             | expression RELATIONAL expression
-   63             | NOT expression
-   64             | expression OR expression
-   65             | expression AND expression
-   66             | ID EQUAL expression
+   61 cond_rules: exp EQUALS exp
+   62           | exp RELATIONAL exp
+   63           | NOT exp
+   64           | exp OR exp
+   65           | exp AND exp
+   66           | ID EQUAL exp
 
    67 sign: ADD
    68     | SUB
@@ -161,10 +161,10 @@ Terminals, with rules where they appear
     TRU (277) 28 59
     FAL (278) 29 60
     STRUCT (279) 6
-    LBRACKET (280) 4 5 22 23 31 39 53 56
-    RBRACKET (281) 5 18 22 23 31 39 53 56
-    LBRACE (282) 4 5 6 53 54 56
-    RBRACE (283) 4 5 20 53 54 56
+    LBRACKET (280) 4 5 6 22 23 31 39 53 56
+    RBRACKET (281) 5 18 20 22 23 31 39 53 56
+    LBRACE (282) 4 5 53 54 56
+    RBRACE (283) 4 5 53 54 56
     SEMICOLON (284) 15 16 22 23 39 49 50 56
     DOT (285) 35
     COMMA (286) 17 19
@@ -179,13 +179,13 @@ Nonterminals, with rules where they appear
 
     $accept (37)
         on left: 0
-    program (38)
+    compiler (38)
         on left: 1
         on right: 0
-    procedure_declarations (39)
+    run_decs (39)
         on left: 2 3
         on right: 1 2
-    procedure_declaration (40)
+    run_dec_rules (40)
         on left: 4 5 6
         on right: 2
     statements (41)
@@ -194,58 +194,58 @@ Nonterminals, with rules where they appear
     statement (42)
         on left: 9 10 11 12 13 14 15
         on right: 7
-    declaration (43)
+    dec_rules (43)
         on left: 16
         on right: 13
-    declarations_p (44)
+    decs_x (44)
         on left: 17 18
         on right: 4 17
-    declarations_s (45)
+    decs_y (45)
         on left: 19 20
         on right: 6 19
-    declaration_p (46)
+    dec_x (46)
         on left: 21
         on right: 17 18 19 20
-    procedure_calls (47)
+    procedure_rules (47)
         on left: 22 23
         on right: 14
-    expressions (48)
+    exp_rule (48)
         on left: 24 25
         on right: 22 23 24
-    expression (49)
+    exp (49)
         on left: 26 27 28 29 30 31 32 33 34 35
         on right: 24 30 31 33 50 61 62 63 64 65 66
-    type (50)
+    exp_t_rule (50)
         on left: 36 37 38
         on right: 16 21
-    prints (51)
+    print_rules (51)
         on left: 39
         on right: 12
-    returns (52)
+    return_rules (52)
         on left: 40 41 42 43 44
         on right: 15
-    return_type (53)
+    return_t_rules (53)
         on left: 45 46 47 48
         on right: 4 5
-    assignment (54)
+    assign_rules (54)
         on left: 49 50
         on right: 11 56
-    if_statements (55)
+    if_rule (55)
         on left: 51 52
         on right: 9 51
-    if_statement (56)
+    if_rules (56)
         on left: 53
         on right: 51
-    else_part (57)
+    else_rules (57)
         on left: 54 55
         on right: 53
-    for_statement (58)
+    for_loop_rules (58)
         on left: 56
         on right: 10
-    bool_exp (59)
+    boolean_rules (59)
         on left: 57 58 59 60
         on right: 53
-    conditionals (60)
+    cond_rules (60)
         on left: 61 62 63 64 65 66
         on right: 56 57
     sign (61)
@@ -258,7 +258,7 @@ Nonterminals, with rules where they appear
 
 State 0
 
-    0 $accept: • program $end
+    0 $accept: • compiler $end
 
     INTEGER  shift, and go to state 1
     VOID     shift, and go to state 2
@@ -266,66 +266,66 @@ State 0
     STRUCT   shift, and go to state 4
     STRING   shift, and go to state 5
 
-    $default  reduce using rule 3 (procedure_declarations)
+    $default  reduce using rule 3 (run_decs)
 
-    program                 go to state 6
-    procedure_declarations  go to state 7
-    procedure_declaration   go to state 8
-    return_type             go to state 9
+    compiler        go to state 6
+    run_decs        go to state 7
+    run_dec_rules   go to state 8
+    return_t_rules  go to state 9
 
 
 State 1
 
-   45 return_type: INTEGER •
+   45 return_t_rules: INTEGER •
 
-    $default  reduce using rule 45 (return_type)
+    $default  reduce using rule 45 (return_t_rules)
 
 
 State 2
 
-   48 return_type: VOID •
+   48 return_t_rules: VOID •
 
-    $default  reduce using rule 48 (return_type)
+    $default  reduce using rule 48 (return_t_rules)
 
 
 State 3
 
-   47 return_type: BOOL •
+   47 return_t_rules: BOOL •
 
-    $default  reduce using rule 47 (return_type)
+    $default  reduce using rule 47 (return_t_rules)
 
 
 State 4
 
-    6 procedure_declaration: STRUCT • ID LBRACE declarations_s
+    6 run_dec_rules: STRUCT • ID LBRACKET decs_y
 
     ID  shift, and go to state 10
 
 
 State 5
 
-   46 return_type: STRING •
+   46 return_t_rules: STRING •
 
-    $default  reduce using rule 46 (return_type)
+    $default  reduce using rule 46 (return_t_rules)
 
 
 State 6
 
-    0 $accept: program • $end
+    0 $accept: compiler • $end
 
     $end  shift, and go to state 11
 
 
 State 7
 
-    1 program: procedure_declarations •
+    1 compiler: run_decs •
 
-    $default  reduce using rule 1 (program)
+    $default  reduce using rule 1 (compiler)
 
 
 State 8
 
-    2 procedure_declarations: procedure_declaration • procedure_declarations
+    2 run_decs: run_dec_rules • run_decs
 
     INTEGER  shift, and go to state 1
     VOID     shift, and go to state 2
@@ -333,140 +333,140 @@ State 8
     STRUCT   shift, and go to state 4
     STRING   shift, and go to state 5
 
-    $default  reduce using rule 3 (procedure_declarations)
+    $default  reduce using rule 3 (run_decs)
 
-    procedure_declarations  go to state 12
-    procedure_declaration   go to state 8
-    return_type             go to state 9
+    run_decs        go to state 12
+    run_dec_rules   go to state 8
+    return_t_rules  go to state 9
 
 
 State 9
 
-    4 procedure_declaration: return_type • ID LBRACKET declarations_p LBRACE statements RBRACE
-    5                      | return_type • ID LBRACKET RBRACKET LBRACE statements RBRACE
+    4 run_dec_rules: return_t_rules • ID LBRACKET decs_x LBRACE statements RBRACE
+    5              | return_t_rules • ID LBRACKET RBRACKET LBRACE statements RBRACE
 
     ID  shift, and go to state 13
 
 
 State 10
 
-    6 procedure_declaration: STRUCT ID • LBRACE declarations_s
+    6 run_dec_rules: STRUCT ID • LBRACKET decs_y
 
-    LBRACE  shift, and go to state 14
+    LBRACKET  shift, and go to state 14
 
 
 State 11
 
-    0 $accept: program $end •
+    0 $accept: compiler $end •
 
     $default  accept
 
 
 State 12
 
-    2 procedure_declarations: procedure_declaration procedure_declarations •
+    2 run_decs: run_dec_rules run_decs •
 
-    $default  reduce using rule 2 (procedure_declarations)
+    $default  reduce using rule 2 (run_decs)
 
 
 State 13
 
-    4 procedure_declaration: return_type ID • LBRACKET declarations_p LBRACE statements RBRACE
-    5                      | return_type ID • LBRACKET RBRACKET LBRACE statements RBRACE
+    4 run_dec_rules: return_t_rules ID • LBRACKET decs_x LBRACE statements RBRACE
+    5              | return_t_rules ID • LBRACKET RBRACKET LBRACE statements RBRACE
 
     LBRACKET  shift, and go to state 15
 
 
 State 14
 
-    6 procedure_declaration: STRUCT ID LBRACE • declarations_s
+    6 run_dec_rules: STRUCT ID LBRACKET • decs_y
 
     INTEGER  shift, and go to state 16
     BOOL     shift, and go to state 17
     STRING   shift, and go to state 18
 
-    declarations_s  go to state 19
-    declaration_p   go to state 20
-    type            go to state 21
+    decs_y      go to state 19
+    dec_x       go to state 20
+    exp_t_rule  go to state 21
 
 
 State 15
 
-    4 procedure_declaration: return_type ID LBRACKET • declarations_p LBRACE statements RBRACE
-    5                      | return_type ID LBRACKET • RBRACKET LBRACE statements RBRACE
+    4 run_dec_rules: return_t_rules ID LBRACKET • decs_x LBRACE statements RBRACE
+    5              | return_t_rules ID LBRACKET • RBRACKET LBRACE statements RBRACE
 
     INTEGER   shift, and go to state 16
     BOOL      shift, and go to state 17
     RBRACKET  shift, and go to state 22
     STRING    shift, and go to state 18
 
-    declarations_p  go to state 23
-    declaration_p   go to state 24
-    type            go to state 21
+    decs_x      go to state 23
+    dec_x       go to state 24
+    exp_t_rule  go to state 21
 
 
 State 16
 
-   36 type: INTEGER •
+   36 exp_t_rule: INTEGER •
 
-    $default  reduce using rule 36 (type)
+    $default  reduce using rule 36 (exp_t_rule)
 
 
 State 17
 
-   38 type: BOOL •
+   38 exp_t_rule: BOOL •
 
-    $default  reduce using rule 38 (type)
+    $default  reduce using rule 38 (exp_t_rule)
 
 
 State 18
 
-   37 type: STRING •
+   37 exp_t_rule: STRING •
 
-    $default  reduce using rule 37 (type)
+    $default  reduce using rule 37 (exp_t_rule)
 
 
 State 19
 
-    6 procedure_declaration: STRUCT ID LBRACE declarations_s •
+    6 run_dec_rules: STRUCT ID LBRACKET decs_y •
 
-    $default  reduce using rule 6 (procedure_declaration)
+    $default  reduce using rule 6 (run_dec_rules)
 
 
 State 20
 
-   19 declarations_s: declaration_p • COMMA declarations_s
-   20               | declaration_p • RBRACE
+   19 decs_y: dec_x • COMMA decs_y
+   20       | dec_x • RBRACKET
 
-    RBRACE  shift, and go to state 25
-    COMMA   shift, and go to state 26
+    RBRACKET  shift, and go to state 25
+    COMMA     shift, and go to state 26
 
 
 State 21
 
-   21 declaration_p: type • ID
+   21 dec_x: exp_t_rule • ID
 
     ID  shift, and go to state 27
 
 
 State 22
 
-    5 procedure_declaration: return_type ID LBRACKET RBRACKET • LBRACE statements RBRACE
+    5 run_dec_rules: return_t_rules ID LBRACKET RBRACKET • LBRACE statements RBRACE
 
     LBRACE  shift, and go to state 28
 
 
 State 23
 
-    4 procedure_declaration: return_type ID LBRACKET declarations_p • LBRACE statements RBRACE
+    4 run_dec_rules: return_t_rules ID LBRACKET decs_x • LBRACE statements RBRACE
 
     LBRACE  shift, and go to state 29
 
 
 State 24
 
-   17 declarations_p: declaration_p • COMMA declarations_p
-   18               | declaration_p • RBRACKET
+   17 decs_x: dec_x • COMMA decs_x
+   18       | dec_x • RBRACKET
 
     RBRACKET  shift, and go to state 30
     COMMA     shift, and go to state 31
@@ -474,34 +474,34 @@ State 24
 
 State 25
 
-   20 declarations_s: declaration_p RBRACE •
+   20 decs_y: dec_x RBRACKET •
 
-    $default  reduce using rule 20 (declarations_s)
+    $default  reduce using rule 20 (decs_y)
 
 
 State 26
 
-   19 declarations_s: declaration_p COMMA • declarations_s
+   19 decs_y: dec_x COMMA • decs_y
 
     INTEGER  shift, and go to state 16
     BOOL     shift, and go to state 17
     STRING   shift, and go to state 18
 
-    declarations_s  go to state 32
-    declaration_p   go to state 20
-    type            go to state 21
+    decs_y      go to state 32
+    dec_x       go to state 20
+    exp_t_rule  go to state 21
 
 
 State 27
 
-   21 declaration_p: type ID •
+   21 dec_x: exp_t_rule ID •
 
-    $default  reduce using rule 21 (declaration_p)
+    $default  reduce using rule 21 (dec_x)
 
 
 State 28
 
-    5 procedure_declaration: return_type ID LBRACKET RBRACKET LBRACE • statements RBRACE
+    5 run_dec_rules: return_t_rules ID LBRACKET RBRACKET LBRACE • statements RBRACE
 
     INTEGER  shift, and go to state 16
     FOR      shift, and go to state 33
@@ -511,32 +511,32 @@ State 28
     ID       shift, and go to state 36
     STRING   shift, and go to state 18
 
-    INTEGER   [reduce using rule 52 (if_statements)]
-    IF        reduce using rule 52 (if_statements)
-    FOR       [reduce using rule 52 (if_statements)]
-    RETURN    [reduce using rule 52 (if_statements)]
-    BOOL      [reduce using rule 52 (if_statements)]
+    INTEGER   [reduce using rule 52 (if_rule)]
+    IF        reduce using rule 52 (if_rule)
+    FOR       [reduce using rule 52 (if_rule)]
+    RETURN    [reduce using rule 52 (if_rule)]
+    BOOL      [reduce using rule 52 (if_rule)]
     RBRACE    reduce using rule 8 (statements)
-    RBRACE    [reduce using rule 52 (if_statements)]
-    PRINT     [reduce using rule 52 (if_statements)]
-    ID        [reduce using rule 52 (if_statements)]
-    STRING    [reduce using rule 52 (if_statements)]
+    RBRACE    [reduce using rule 52 (if_rule)]
+    PRINT     [reduce using rule 52 (if_rule)]
+    ID        [reduce using rule 52 (if_rule)]
+    STRING    [reduce using rule 52 (if_rule)]
     $default  reduce using rule 8 (statements)
 
     statements       go to state 37
     statement        go to state 38
-    declaration      go to state 39
-    procedure_calls  go to state 40
-    type             go to state 41
-    prints           go to state 42
-    assignment       go to state 43
-    if_statements    go to state 44
-    for_statement    go to state 45
+    dec_rules        go to state 39
+    procedure_rules  go to state 40
+    exp_t_rule       go to state 41
+    print_rules      go to state 42
+    assign_rules     go to state 43
+    if_rule          go to state 44
+    for_loop_rules   go to state 45
 
 
 State 29
 
-    4 procedure_declaration: return_type ID LBRACKET declarations_p LBRACE • statements RBRACE
+    4 run_dec_rules: return_t_rules ID LBRACKET decs_x LBRACE • statements RBRACE
 
     INTEGER  shift, and go to state 16
     FOR      shift, and go to state 33
@@ -546,90 +546,90 @@ State 29
     ID       shift, and go to state 36
     STRING   shift, and go to state 18
 
-    INTEGER   [reduce using rule 52 (if_statements)]
-    IF        reduce using rule 52 (if_statements)
-    FOR       [reduce using rule 52 (if_statements)]
-    RETURN    [reduce using rule 52 (if_statements)]
-    BOOL      [reduce using rule 52 (if_statements)]
+    INTEGER   [reduce using rule 52 (if_rule)]
+    IF        reduce using rule 52 (if_rule)
+    FOR       [reduce using rule 52 (if_rule)]
+    RETURN    [reduce using rule 52 (if_rule)]
+    BOOL      [reduce using rule 52 (if_rule)]
     RBRACE    reduce using rule 8 (statements)
-    RBRACE    [reduce using rule 52 (if_statements)]
-    PRINT     [reduce using rule 52 (if_statements)]
-    ID        [reduce using rule 52 (if_statements)]
-    STRING    [reduce using rule 52 (if_statements)]
+    RBRACE    [reduce using rule 52 (if_rule)]
+    PRINT     [reduce using rule 52 (if_rule)]
+    ID        [reduce using rule 52 (if_rule)]
+    STRING    [reduce using rule 52 (if_rule)]
     $default  reduce using rule 8 (statements)
 
     statements       go to state 46
     statement        go to state 38
-    declaration      go to state 39
-    procedure_calls  go to state 40
-    type             go to state 41
-    prints           go to state 42
-    assignment       go to state 43
-    if_statements    go to state 44
-    for_statement    go to state 45
+    dec_rules        go to state 39
+    procedure_rules  go to state 40
+    exp_t_rule       go to state 41
+    print_rules      go to state 42
+    assign_rules     go to state 43
+    if_rule          go to state 44
+    for_loop_rules   go to state 45
 
 
 State 30
 
-   18 declarations_p: declaration_p RBRACKET •
+   18 decs_x: dec_x RBRACKET •
 
-    $default  reduce using rule 18 (declarations_p)
+    $default  reduce using rule 18 (decs_x)
 
 
 State 31
 
-   17 declarations_p: declaration_p COMMA • declarations_p
+   17 decs_x: dec_x COMMA • decs_x
 
     INTEGER  shift, and go to state 16
     BOOL     shift, and go to state 17
     STRING   shift, and go to state 18
 
-    declarations_p  go to state 47
-    declaration_p   go to state 24
-    type            go to state 21
+    decs_x      go to state 47
+    dec_x       go to state 24
+    exp_t_rule  go to state 21
 
 
 State 32
 
-   19 declarations_s: declaration_p COMMA declarations_s •
+   19 decs_y: dec_x COMMA decs_y •
 
-    $default  reduce using rule 19 (declarations_s)
+    $default  reduce using rule 19 (decs_y)
 
 
 State 33
 
-   56 for_statement: FOR • LBRACKET assignment conditionals SEMICOLON conditionals RBRACKET LBRACE statements RBRACE
+   56 for_loop_rules: FOR • LBRACKET assign_rules cond_rules SEMICOLON cond_rules RBRACKET LBRACE statements RBRACE
 
     LBRACKET  shift, and go to state 48
 
 
 State 34
 
-   15 statement: RETURN • returns SEMICOLON
+   15 statement: RETURN • return_rules SEMICOLON
 
     VOID    shift, and go to state 49
     ID      shift, and go to state 50
     ICONST  shift, and go to state 51
     SCONST  shift, and go to state 52
 
-    $default  reduce using rule 44 (returns)
+    $default  reduce using rule 44 (return_rules)
 
-    returns  go to state 53
+    return_rules  go to state 53
 
 
 State 35
 
-   39 prints: PRINT • LBRACKET SCONST RBRACKET SEMICOLON
+   39 print_rules: PRINT • LBRACKET SCONST RBRACKET SEMICOLON
 
     LBRACKET  shift, and go to state 54
 
 
 State 36
 
-   22 procedure_calls: ID • LBRACKET expressions RBRACKET SEMICOLON
-   23                | ID • EQUAL ID LBRACKET expressions RBRACKET SEMICOLON
-   49 assignment: ID • EQUAL VOID SEMICOLON
-   50           | ID • EQUAL expression SEMICOLON
+   22 procedure_rules: ID • LBRACKET exp_rule RBRACKET SEMICOLON
+   23                | ID • EQUAL ID LBRACKET exp_rule RBRACKET SEMICOLON
+   49 assign_rules: ID • EQUAL VOID SEMICOLON
+   50             | ID • EQUAL exp SEMICOLON
 
     EQUAL     shift, and go to state 55
     LBRACKET  shift, and go to state 56
@@ -637,7 +637,7 @@ State 36
 
 State 37
 
-    5 procedure_declaration: return_type ID LBRACKET RBRACKET LBRACE statements • RBRACE
+    5 run_dec_rules: return_t_rules ID LBRACKET RBRACKET LBRACE statements • RBRACE
 
     RBRACE  shift, and go to state 57
 
@@ -654,154 +654,154 @@ State 38
     ID       shift, and go to state 36
     STRING   shift, and go to state 18
 
-    INTEGER   [reduce using rule 52 (if_statements)]
-    IF        reduce using rule 52 (if_statements)
-    FOR       [reduce using rule 52 (if_statements)]
-    RETURN    [reduce using rule 52 (if_statements)]
-    BOOL      [reduce using rule 52 (if_statements)]
+    INTEGER   [reduce using rule 52 (if_rule)]
+    IF        reduce using rule 52 (if_rule)
+    FOR       [reduce using rule 52 (if_rule)]
+    RETURN    [reduce using rule 52 (if_rule)]
+    BOOL      [reduce using rule 52 (if_rule)]
     RBRACE    reduce using rule 8 (statements)
-    RBRACE    [reduce using rule 52 (if_statements)]
-    PRINT     [reduce using rule 52 (if_statements)]
-    ID        [reduce using rule 52 (if_statements)]
-    STRING    [reduce using rule 52 (if_statements)]
+    RBRACE    [reduce using rule 52 (if_rule)]
+    PRINT     [reduce using rule 52 (if_rule)]
+    ID        [reduce using rule 52 (if_rule)]
+    STRING    [reduce using rule 52 (if_rule)]
     $default  reduce using rule 8 (statements)
 
     statements       go to state 58
     statement        go to state 38
-    declaration      go to state 39
-    procedure_calls  go to state 40
-    type             go to state 41
-    prints           go to state 42
-    assignment       go to state 43
-    if_statements    go to state 44
-    for_statement    go to state 45
+    dec_rules        go to state 39
+    procedure_rules  go to state 40
+    exp_t_rule       go to state 41
+    print_rules      go to state 42
+    assign_rules     go to state 43
+    if_rule          go to state 44
+    for_loop_rules   go to state 45
 
 
 State 39
 
-   13 statement: declaration •
+   13 statement: dec_rules •
 
     $default  reduce using rule 13 (statement)
 
 
 State 40
 
-   14 statement: procedure_calls •
+   14 statement: procedure_rules •
 
     $default  reduce using rule 14 (statement)
 
 
 State 41
 
-   16 declaration: type • ID SEMICOLON
+   16 dec_rules: exp_t_rule • ID SEMICOLON
 
     ID  shift, and go to state 59
 
 
 State 42
 
-   12 statement: prints •
+   12 statement: print_rules •
 
     $default  reduce using rule 12 (statement)
 
 
 State 43
 
-   11 statement: assignment •
+   11 statement: assign_rules •
 
     $default  reduce using rule 11 (statement)
 
 
 State 44
 
-    9 statement: if_statements •
-   51 if_statements: if_statements • if_statement
+    9 statement: if_rule •
+   51 if_rule: if_rule • if_rules
 
     IF  shift, and go to state 60
 
     IF        [reduce using rule 9 (statement)]
     $default  reduce using rule 9 (statement)
 
-    if_statement  go to state 61
+    if_rules  go to state 61
 
 
 State 45
 
-   10 statement: for_statement •
+   10 statement: for_loop_rules •
 
     $default  reduce using rule 10 (statement)
 
 
 State 46
 
-    4 procedure_declaration: return_type ID LBRACKET declarations_p LBRACE statements • RBRACE
+    4 run_dec_rules: return_t_rules ID LBRACKET decs_x LBRACE statements • RBRACE
 
     RBRACE  shift, and go to state 62
 
 
 State 47
 
-   17 declarations_p: declaration_p COMMA declarations_p •
+   17 decs_x: dec_x COMMA decs_x •
 
-    $default  reduce using rule 17 (declarations_p)
+    $default  reduce using rule 17 (decs_x)
 
 
 State 48
 
-   56 for_statement: FOR LBRACKET • assignment conditionals SEMICOLON conditionals RBRACKET LBRACE statements RBRACE
+   56 for_loop_rules: FOR LBRACKET • assign_rules cond_rules SEMICOLON cond_rules RBRACKET LBRACE statements RBRACE
 
     ID  shift, and go to state 63
 
-    assignment  go to state 64
+    assign_rules  go to state 64
 
 
 State 49
 
-   43 returns: VOID •
+   43 return_rules: VOID •
 
-    $default  reduce using rule 43 (returns)
+    $default  reduce using rule 43 (return_rules)
 
 
 State 50
 
-   40 returns: ID •
+   40 return_rules: ID •
 
-    $default  reduce using rule 40 (returns)
+    $default  reduce using rule 40 (return_rules)
 
 
 State 51
 
-   41 returns: ICONST •
+   41 return_rules: ICONST •
 
-    $default  reduce using rule 41 (returns)
+    $default  reduce using rule 41 (return_rules)
 
 
 State 52
 
-   42 returns: SCONST •
+   42 return_rules: SCONST •
 
-    $default  reduce using rule 42 (returns)
+    $default  reduce using rule 42 (return_rules)
 
 
 State 53
 
-   15 statement: RETURN returns • SEMICOLON
+   15 statement: RETURN return_rules • SEMICOLON
 
     SEMICOLON  shift, and go to state 65
 
 
 State 54
 
-   39 prints: PRINT LBRACKET • SCONST RBRACKET SEMICOLON
+   39 print_rules: PRINT LBRACKET • SCONST RBRACKET SEMICOLON
 
     SCONST  shift, and go to state 66
 
 
 State 55
 
-   23 procedure_calls: ID EQUAL • ID LBRACKET expressions RBRACKET SEMICOLON
-   49 assignment: ID EQUAL • VOID SEMICOLON
-   50           | ID EQUAL • expression SEMICOLON
+   23 procedure_rules: ID EQUAL • ID LBRACKET exp_rule RBRACKET SEMICOLON
+   49 assign_rules: ID EQUAL • VOID SEMICOLON
+   50             | ID EQUAL • exp SEMICOLON
 
     NOT       shift, and go to state 67
     ADD       shift, and go to state 68
@@ -814,24 +814,24 @@ State 55
     ICONST    shift, and go to state 75
     SCONST    shift, and go to state 76
 
-    expression  go to state 77
-    sign        go to state 78
+    exp   go to state 77
+    sign  go to state 78
 
 
 State 56
 
-   22 procedure_calls: ID LBRACKET • expressions RBRACKET SEMICOLON
+   22 procedure_rules: ID LBRACKET • exp_rule RBRACKET SEMICOLON
 
-    $default  reduce using rule 25 (expressions)
+    $default  reduce using rule 25 (exp_rule)
 
-    expressions  go to state 79
+    exp_rule  go to state 79
 
 
 State 57
 
-    5 procedure_declaration: return_type ID LBRACKET RBRACKET LBRACE statements RBRACE •
+    5 run_dec_rules: return_t_rules ID LBRACKET RBRACKET LBRACE statements RBRACE •
 
-    $default  reduce using rule 5 (procedure_declaration)
+    $default  reduce using rule 5 (run_dec_rules)
 
 
 State 58
@@ -843,43 +843,43 @@ State 58
 
 State 59
 
-   16 declaration: type ID • SEMICOLON
+   16 dec_rules: exp_t_rule ID • SEMICOLON
 
     SEMICOLON  shift, and go to state 80
 
 
 State 60
 
-   53 if_statement: IF • LBRACKET bool_exp RBRACKET THEN LBRACE statements RBRACE else_part
+   53 if_rules: IF • LBRACKET boolean_rules RBRACKET THEN LBRACE statements RBRACE else_rules
 
     LBRACKET  shift, and go to state 81
 
 
 State 61
 
-   51 if_statements: if_statements if_statement •
+   51 if_rule: if_rule if_rules •
 
-    $default  reduce using rule 51 (if_statements)
+    $default  reduce using rule 51 (if_rule)
 
 
 State 62
 
-    4 procedure_declaration: return_type ID LBRACKET declarations_p LBRACE statements RBRACE •
+    4 run_dec_rules: return_t_rules ID LBRACKET decs_x LBRACE statements RBRACE •
 
-    $default  reduce using rule 4 (procedure_declaration)
+    $default  reduce using rule 4 (run_dec_rules)
 
 
 State 63
 
-   49 assignment: ID • EQUAL VOID SEMICOLON
-   50           | ID • EQUAL expression SEMICOLON
+   49 assign_rules: ID • EQUAL VOID SEMICOLON
+   50             | ID • EQUAL exp SEMICOLON
 
     EQUAL  shift, and go to state 82
 
 
 State 64
 
-   56 for_statement: FOR LBRACKET assignment • conditionals SEMICOLON conditionals RBRACKET LBRACE statements RBRACE
+   56 for_loop_rules: FOR LBRACKET assign_rules • cond_rules SEMICOLON cond_rules RBRACKET LBRACE statements RBRACE
 
     NOT       shift, and go to state 83
     ADD       shift, and go to state 68
@@ -891,28 +891,28 @@ State 64
     ICONST    shift, and go to state 75
     SCONST    shift, and go to state 76
 
-    expression    go to state 85
-    conditionals  go to state 86
-    sign          go to state 78
+    exp         go to state 85
+    cond_rules  go to state 86
+    sign        go to state 78
 
 
 State 65
 
-   15 statement: RETURN returns SEMICOLON •
+   15 statement: RETURN return_rules SEMICOLON •
 
     $default  reduce using rule 15 (statement)
 
 
 State 66
 
-   39 prints: PRINT LBRACKET SCONST • RBRACKET SEMICOLON
+   39 print_rules: PRINT LBRACKET SCONST • RBRACKET SEMICOLON
 
     RBRACKET  shift, and go to state 87
 
 
 State 67
 
-   33 expression: NOT • expression
+   33 exp: NOT • exp
 
     NOT       shift, and go to state 67
     ADD       shift, and go to state 68
@@ -924,8 +924,8 @@ State 67
     ICONST    shift, and go to state 75
     SCONST    shift, and go to state 76
 
-    expression  go to state 89
-    sign        go to state 78
+    exp   go to state 89
+    sign  go to state 78
 
 
 State 68
@@ -944,28 +944,28 @@ State 69
 
 State 70
 
-   49 assignment: ID EQUAL VOID • SEMICOLON
+   49 assign_rules: ID EQUAL VOID • SEMICOLON
 
     SEMICOLON  shift, and go to state 90
 
 
 State 71
 
-   28 expression: TRU •
+   28 exp: TRU •
 
-    $default  reduce using rule 28 (expression)
+    $default  reduce using rule 28 (exp)
 
 
 State 72
 
-   29 expression: FAL •
+   29 exp: FAL •
 
-    $default  reduce using rule 29 (expression)
+    $default  reduce using rule 29 (exp)
 
 
 State 73
 
-   31 expression: LBRACKET • expression RBRACKET
+   31 exp: LBRACKET • exp RBRACKET
 
     NOT       shift, and go to state 67
     ADD       shift, and go to state 68
@@ -977,40 +977,40 @@ State 73
     ICONST    shift, and go to state 75
     SCONST    shift, and go to state 76
 
-    expression  go to state 91
-    sign        go to state 78
+    exp   go to state 91
+    sign  go to state 78
 
 
 State 74
 
-   23 procedure_calls: ID EQUAL ID • LBRACKET expressions RBRACKET SEMICOLON
-   34 expression: ID •
-   35           | ID • DOT ID
+   23 procedure_rules: ID EQUAL ID • LBRACKET exp_rule RBRACKET SEMICOLON
+   34 exp: ID •
+   35    | ID • DOT ID
 
     LBRACKET  shift, and go to state 92
     DOT       shift, and go to state 93
 
-    $default  reduce using rule 34 (expression)
+    $default  reduce using rule 34 (exp)
 
 
 State 75
 
-   26 expression: ICONST •
+   26 exp: ICONST •
 
-    $default  reduce using rule 26 (expression)
+    $default  reduce using rule 26 (exp)
 
 
 State 76
 
-   27 expression: SCONST •
+   27 exp: SCONST •
 
-    $default  reduce using rule 27 (expression)
+    $default  reduce using rule 27 (exp)
 
 
 State 77
 
-   30 expression: expression • OPERATOR expression
-   50 assignment: ID EQUAL expression • SEMICOLON
+   30 exp: exp • OPERATOR exp
+   50 assign_rules: ID EQUAL exp • SEMICOLON
 
     NOT         shift, and go to state 94
     ADD         shift, and go to state 95
@@ -1029,15 +1029,15 @@ State 77
 
 State 78
 
-   32 expression: sign • ICONST
+   32 exp: sign • ICONST
 
     ICONST  shift, and go to state 106
 
 
 State 79
 
-   22 procedure_calls: ID LBRACKET expressions • RBRACKET SEMICOLON
-   24 expressions: expressions • expression
+   22 procedure_rules: ID LBRACKET exp_rule • RBRACKET SEMICOLON
+   24 exp_rule: exp_rule • exp
 
     NOT       shift, and go to state 67
     ADD       shift, and go to state 68
@@ -1050,20 +1050,20 @@ State 79
     ICONST    shift, and go to state 75
     SCONST    shift, and go to state 76
 
-    expression  go to state 108
-    sign        go to state 78
+    exp   go to state 108
+    sign  go to state 78
 
 
 State 80
 
-   16 declaration: type ID SEMICOLON •
+   16 dec_rules: exp_t_rule ID SEMICOLON •
 
-    $default  reduce using rule 16 (declaration)
+    $default  reduce using rule 16 (dec_rules)
 
 
 State 81
 
-   53 if_statement: IF LBRACKET • bool_exp RBRACKET THEN LBRACE statements RBRACE else_part
+   53 if_rules: IF LBRACKET • boolean_rules RBRACKET THEN LBRACE statements RBRACE else_rules
 
     NOT       shift, and go to state 83
     ADD       shift, and go to state 68
@@ -1075,16 +1075,16 @@ State 81
     ICONST    shift, and go to state 75
     SCONST    shift, and go to state 76
 
-    expression    go to state 85
-    bool_exp      go to state 112
-    conditionals  go to state 113
-    sign          go to state 78
+    exp            go to state 85
+    boolean_rules  go to state 112
+    cond_rules     go to state 113
+    sign           go to state 78
 
 
 State 82
 
-   49 assignment: ID EQUAL • VOID SEMICOLON
-   50           | ID EQUAL • expression SEMICOLON
+   49 assign_rules: ID EQUAL • VOID SEMICOLON
+   50             | ID EQUAL • exp SEMICOLON
 
     NOT       shift, and go to state 67
     ADD       shift, and go to state 68
@@ -1097,14 +1097,14 @@ State 82
     ICONST    shift, and go to state 75
     SCONST    shift, and go to state 76
 
-    expression  go to state 77
-    sign        go to state 78
+    exp   go to state 77
+    sign  go to state 78
 
 
 State 83
 
-   33 expression: NOT • expression
-   63 conditionals: NOT • expression
+   33 exp: NOT • exp
+   63 cond_rules: NOT • exp
 
     NOT       shift, and go to state 67
     ADD       shift, and go to state 68
@@ -1116,29 +1116,29 @@ State 83
     ICONST    shift, and go to state 75
     SCONST    shift, and go to state 76
 
-    expression  go to state 114
-    sign        go to state 78
+    exp   go to state 114
+    sign  go to state 78
 
 
 State 84
 
-   34 expression: ID •
-   35           | ID • DOT ID
-   66 conditionals: ID • EQUAL expression
+   34 exp: ID •
+   35    | ID • DOT ID
+   66 cond_rules: ID • EQUAL exp
 
     EQUAL  shift, and go to state 115
     DOT    shift, and go to state 93
 
-    $default  reduce using rule 34 (expression)
+    $default  reduce using rule 34 (exp)
 
 
 State 85
 
-   30 expression: expression • OPERATOR expression
-   61 conditionals: expression • EQUALS expression
-   62             | expression • RELATIONAL expression
-   64             | expression • OR expression
-   65             | expression • AND expression
+   30 exp: exp • OPERATOR exp
+   61 cond_rules: exp • EQUALS exp
+   62           | exp • RELATIONAL exp
+   64           | exp • OR exp
+   65           | exp • AND exp
 
     NOT         shift, and go to state 94
     ADD         shift, and go to state 95
@@ -1156,32 +1156,32 @@ State 85
 
 State 86
 
-   56 for_statement: FOR LBRACKET assignment conditionals • SEMICOLON conditionals RBRACKET LBRACE statements RBRACE
+   56 for_loop_rules: FOR LBRACKET assign_rules cond_rules • SEMICOLON cond_rules RBRACKET LBRACE statements RBRACE
 
     SEMICOLON  shift, and go to state 120
 
 
 State 87
 
-   39 prints: PRINT LBRACKET SCONST RBRACKET • SEMICOLON
+   39 print_rules: PRINT LBRACKET SCONST RBRACKET • SEMICOLON
 
     SEMICOLON  shift, and go to state 121
 
 
 State 88
 
-   34 expression: ID •
-   35           | ID • DOT ID
+   34 exp: ID •
+   35    | ID • DOT ID
 
     DOT  shift, and go to state 93
 
-    $default  reduce using rule 34 (expression)
+    $default  reduce using rule 34 (exp)
 
 
 State 89
 
-   30 expression: expression • OPERATOR expression
-   33           | NOT expression •
+   30 exp: exp • OPERATOR exp
+   33    | NOT exp •
 
     RELATIONAL  shift, and go to state 97
     EQUALS      shift, and go to state 98
@@ -1189,25 +1189,25 @@ State 89
     AND         shift, and go to state 102
     MOD         shift, and go to state 103
 
-    OR        [reduce using rule 33 (expression)]
-    AND       [reduce using rule 33 (expression)]
-    MOD       [reduce using rule 33 (expression)]
-    $default  reduce using rule 33 (expression)
+    OR        [reduce using rule 33 (exp)]
+    AND       [reduce using rule 33 (exp)]
+    MOD       [reduce using rule 33 (exp)]
+    $default  reduce using rule 33 (exp)
 
     OPERATOR  go to state 105
 
 
 State 90
 
-   49 assignment: ID EQUAL VOID SEMICOLON •
+   49 assign_rules: ID EQUAL VOID SEMICOLON •
 
-    $default  reduce using rule 49 (assignment)
+    $default  reduce using rule 49 (assign_rules)
 
 
 State 91
 
-   30 expression: expression • OPERATOR expression
-   31           | LBRACKET expression • RBRACKET
+   30 exp: exp • OPERATOR exp
+   31    | LBRACKET exp • RBRACKET
 
     NOT         shift, and go to state 94
     ADD         shift, and go to state 95
@@ -1226,16 +1226,16 @@ State 91
 
 State 92
 
-   23 procedure_calls: ID EQUAL ID LBRACKET • expressions RBRACKET SEMICOLON
+   23 procedure_rules: ID EQUAL ID LBRACKET • exp_rule RBRACKET SEMICOLON
 
-    $default  reduce using rule 25 (expressions)
+    $default  reduce using rule 25 (exp_rule)
 
-    expressions  go to state 123
+    exp_rule  go to state 123
 
 
 State 93
 
-   35 expression: ID DOT • ID
+   35 exp: ID DOT • ID
 
     ID  shift, and go to state 124
 
@@ -1312,14 +1312,14 @@ State 103
 
 State 104
 
-   50 assignment: ID EQUAL expression SEMICOLON •
+   50 assign_rules: ID EQUAL exp SEMICOLON •
 
-    $default  reduce using rule 50 (assignment)
+    $default  reduce using rule 50 (assign_rules)
 
 
 State 105
 
-   30 expression: expression OPERATOR • expression
+   30 exp: exp OPERATOR • exp
 
     NOT       shift, and go to state 67
     ADD       shift, and go to state 68
@@ -1331,28 +1331,28 @@ State 105
     ICONST    shift, and go to state 75
     SCONST    shift, and go to state 76
 
-    expression  go to state 125
-    sign        go to state 78
+    exp   go to state 125
+    sign  go to state 78
 
 
 State 106
 
-   32 expression: sign ICONST •
+   32 exp: sign ICONST •
 
-    $default  reduce using rule 32 (expression)
+    $default  reduce using rule 32 (exp)
 
 
 State 107
 
-   22 procedure_calls: ID LBRACKET expressions RBRACKET • SEMICOLON
+   22 procedure_rules: ID LBRACKET exp_rule RBRACKET • SEMICOLON
 
     SEMICOLON  shift, and go to state 126
 
 
 State 108
 
-   24 expressions: expressions expression •
-   30 expression: expression • OPERATOR expression
+   24 exp_rule: exp_rule exp •
+   30 exp: exp • OPERATOR exp
 
     NOT         shift, and go to state 94
     ADD         shift, and go to state 95
@@ -1365,65 +1365,65 @@ State 108
     AND         shift, and go to state 102
     MOD         shift, and go to state 103
 
-    NOT       [reduce using rule 24 (expressions)]
-    ADD       [reduce using rule 24 (expressions)]
-    SUB       [reduce using rule 24 (expressions)]
-    $default  reduce using rule 24 (expressions)
+    NOT       [reduce using rule 24 (exp_rule)]
+    ADD       [reduce using rule 24 (exp_rule)]
+    SUB       [reduce using rule 24 (exp_rule)]
+    $default  reduce using rule 24 (exp_rule)
 
     OPERATOR  go to state 105
 
 
 State 109
 
-   28 expression: TRU •
-   59 bool_exp: TRU •
+   28 exp: TRU •
+   59 boolean_rules: TRU •
 
-    RBRACKET  reduce using rule 59 (bool_exp)
-    $default  reduce using rule 28 (expression)
+    RBRACKET  reduce using rule 59 (boolean_rules)
+    $default  reduce using rule 28 (exp)
 
 
 State 110
 
-   29 expression: FAL •
-   60 bool_exp: FAL •
+   29 exp: FAL •
+   60 boolean_rules: FAL •
 
-    RBRACKET  reduce using rule 60 (bool_exp)
-    $default  reduce using rule 29 (expression)
+    RBRACKET  reduce using rule 60 (boolean_rules)
+    $default  reduce using rule 29 (exp)
 
 
 State 111
 
-   34 expression: ID •
-   35           | ID • DOT ID
-   58 bool_exp: ID •
-   66 conditionals: ID • EQUAL expression
+   34 exp: ID •
+   35    | ID • DOT ID
+   58 boolean_rules: ID •
+   66 cond_rules: ID • EQUAL exp
 
     EQUAL  shift, and go to state 115
     DOT    shift, and go to state 93
 
-    RBRACKET  reduce using rule 58 (bool_exp)
-    $default  reduce using rule 34 (expression)
+    RBRACKET  reduce using rule 58 (boolean_rules)
+    $default  reduce using rule 34 (exp)
 
 
 State 112
 
-   53 if_statement: IF LBRACKET bool_exp • RBRACKET THEN LBRACE statements RBRACE else_part
+   53 if_rules: IF LBRACKET boolean_rules • RBRACKET THEN LBRACE statements RBRACE else_rules
 
     RBRACKET  shift, and go to state 127
 
 
 State 113
 
-   57 bool_exp: conditionals •
+   57 boolean_rules: cond_rules •
 
-    $default  reduce using rule 57 (bool_exp)
+    $default  reduce using rule 57 (boolean_rules)
 
 
 State 114
 
-   30 expression: expression • OPERATOR expression
-   33           | NOT expression •
-   63 conditionals: NOT expression •
+   30 exp: exp • OPERATOR exp
+   33    | NOT exp •
+   63 cond_rules: NOT exp •
 
     RELATIONAL  shift, and go to state 97
     EQUALS      shift, and go to state 98
@@ -1431,19 +1431,19 @@ State 114
     AND         shift, and go to state 102
     MOD         shift, and go to state 103
 
-    OR         [reduce using rule 33 (expression)]
-    AND        [reduce using rule 33 (expression)]
-    MOD        [reduce using rule 33 (expression)]
-    RBRACKET   reduce using rule 63 (conditionals)
-    SEMICOLON  reduce using rule 63 (conditionals)
-    $default   reduce using rule 33 (expression)
+    OR         [reduce using rule 33 (exp)]
+    AND        [reduce using rule 33 (exp)]
+    MOD        [reduce using rule 33 (exp)]
+    RBRACKET   reduce using rule 63 (cond_rules)
+    SEMICOLON  reduce using rule 63 (cond_rules)
+    $default   reduce using rule 33 (exp)
 
     OPERATOR  go to state 105
 
 
 State 115
 
-   66 conditionals: ID EQUAL • expression
+   66 cond_rules: ID EQUAL • exp
 
     NOT       shift, and go to state 67
     ADD       shift, and go to state 68
@@ -1455,13 +1455,13 @@ State 115
     ICONST    shift, and go to state 75
     SCONST    shift, and go to state 76
 
-    expression  go to state 128
-    sign        go to state 78
+    exp   go to state 128
+    sign  go to state 78
 
 
 State 116
 
-   62 conditionals: expression RELATIONAL • expression
+   62 cond_rules: exp RELATIONAL • exp
    78 OPERATOR: RELATIONAL •
 
     TRU       shift, and go to state 71
@@ -1479,13 +1479,13 @@ State 116
     SCONST    [reduce using rule 78 (OPERATOR)]
     $default  reduce using rule 78 (OPERATOR)
 
-    expression  go to state 129
-    sign        go to state 78
+    exp   go to state 129
+    sign  go to state 78
 
 
 State 117
 
-   61 conditionals: expression EQUALS • expression
+   61 cond_rules: exp EQUALS • exp
    77 OPERATOR: EQUALS •
 
     TRU       shift, and go to state 71
@@ -1503,13 +1503,13 @@ State 117
     SCONST    [reduce using rule 77 (OPERATOR)]
     $default  reduce using rule 77 (OPERATOR)
 
-    expression  go to state 130
-    sign        go to state 78
+    exp   go to state 130
+    sign  go to state 78
 
 
 State 118
 
-   64 conditionals: expression OR • expression
+   64 cond_rules: exp OR • exp
    75 OPERATOR: OR •
 
     NOT       shift, and go to state 67
@@ -1532,13 +1532,13 @@ State 118
     ICONST    [reduce using rule 75 (OPERATOR)]
     SCONST    [reduce using rule 75 (OPERATOR)]
 
-    expression  go to state 131
-    sign        go to state 78
+    exp   go to state 131
+    sign  go to state 78
 
 
 State 119
 
-   65 conditionals: expression AND • expression
+   65 cond_rules: exp AND • exp
    74 OPERATOR: AND •
 
     NOT       shift, and go to state 67
@@ -1561,13 +1561,13 @@ State 119
     ICONST    [reduce using rule 74 (OPERATOR)]
     SCONST    [reduce using rule 74 (OPERATOR)]
 
-    expression  go to state 132
-    sign        go to state 78
+    exp   go to state 132
+    sign  go to state 78
 
 
 State 120
 
-   56 for_statement: FOR LBRACKET assignment conditionals SEMICOLON • conditionals RBRACKET LBRACE statements RBRACE
+   56 for_loop_rules: FOR LBRACKET assign_rules cond_rules SEMICOLON • cond_rules RBRACKET LBRACE statements RBRACE
 
     NOT       shift, and go to state 83
     ADD       shift, and go to state 68
@@ -1579,29 +1579,29 @@ State 120
     ICONST    shift, and go to state 75
     SCONST    shift, and go to state 76
 
-    expression    go to state 85
-    conditionals  go to state 133
-    sign          go to state 78
+    exp         go to state 85
+    cond_rules  go to state 133
+    sign        go to state 78
 
 
 State 121
 
-   39 prints: PRINT LBRACKET SCONST RBRACKET SEMICOLON •
+   39 print_rules: PRINT LBRACKET SCONST RBRACKET SEMICOLON •
 
-    $default  reduce using rule 39 (prints)
+    $default  reduce using rule 39 (print_rules)
 
 
 State 122
 
-   31 expression: LBRACKET expression RBRACKET •
+   31 exp: LBRACKET exp RBRACKET •
 
-    $default  reduce using rule 31 (expression)
+    $default  reduce using rule 31 (exp)
 
 
 State 123
 
-   23 procedure_calls: ID EQUAL ID LBRACKET expressions • RBRACKET SEMICOLON
-   24 expressions: expressions • expression
+   23 procedure_rules: ID EQUAL ID LBRACKET exp_rule • RBRACKET SEMICOLON
+   24 exp_rule: exp_rule • exp
 
     NOT       shift, and go to state 67
     ADD       shift, and go to state 68
@@ -1614,21 +1614,21 @@ State 123
     ICONST    shift, and go to state 75
     SCONST    shift, and go to state 76
 
-    expression  go to state 108
-    sign        go to state 78
+    exp   go to state 108
+    sign  go to state 78
 
 
 State 124
 
-   35 expression: ID DOT ID •
+   35 exp: ID DOT ID •
 
-    $default  reduce using rule 35 (expression)
+    $default  reduce using rule 35 (exp)
 
 
 State 125
 
-   30 expression: expression • OPERATOR expression
-   30           | expression OPERATOR expression •
+   30 exp: exp • OPERATOR exp
+   30    | exp OPERATOR exp •
 
     NOT         shift, and go to state 94
     ADD         shift, and go to state 95
@@ -1641,39 +1641,39 @@ State 125
     AND         shift, and go to state 102
     MOD         shift, and go to state 103
 
-    NOT         [reduce using rule 30 (expression)]
-    ADD         [reduce using rule 30 (expression)]
-    SUB         [reduce using rule 30 (expression)]
-    RELATIONAL  [reduce using rule 30 (expression)]
-    EQUALS      [reduce using rule 30 (expression)]
-    MULTIPLY    [reduce using rule 30 (expression)]
-    DIVIDE      [reduce using rule 30 (expression)]
-    OR          [reduce using rule 30 (expression)]
-    AND         [reduce using rule 30 (expression)]
-    MOD         [reduce using rule 30 (expression)]
-    $default    reduce using rule 30 (expression)
+    NOT         [reduce using rule 30 (exp)]
+    ADD         [reduce using rule 30 (exp)]
+    SUB         [reduce using rule 30 (exp)]
+    RELATIONAL  [reduce using rule 30 (exp)]
+    EQUALS      [reduce using rule 30 (exp)]
+    MULTIPLY    [reduce using rule 30 (exp)]
+    DIVIDE      [reduce using rule 30 (exp)]
+    OR          [reduce using rule 30 (exp)]
+    AND         [reduce using rule 30 (exp)]
+    MOD         [reduce using rule 30 (exp)]
+    $default    reduce using rule 30 (exp)
 
     OPERATOR  go to state 105
 
 
 State 126
 
-   22 procedure_calls: ID LBRACKET expressions RBRACKET SEMICOLON •
+   22 procedure_rules: ID LBRACKET exp_rule RBRACKET SEMICOLON •
 
-    $default  reduce using rule 22 (procedure_calls)
+    $default  reduce using rule 22 (procedure_rules)
 
 
 State 127
 
-   53 if_statement: IF LBRACKET bool_exp RBRACKET • THEN LBRACE statements RBRACE else_part
+   53 if_rules: IF LBRACKET boolean_rules RBRACKET • THEN LBRACE statements RBRACE else_rules
 
     THEN  shift, and go to state 135
 
 
 State 128
 
-   30 expression: expression • OPERATOR expression
-   66 conditionals: ID EQUAL expression •
+   30 exp: exp • OPERATOR exp
+   66 cond_rules: ID EQUAL exp •
 
     NOT         shift, and go to state 94
     ADD         shift, and go to state 95
@@ -1686,15 +1686,15 @@ State 128
     AND         shift, and go to state 102
     MOD         shift, and go to state 103
 
-    $default  reduce using rule 66 (conditionals)
+    $default  reduce using rule 66 (cond_rules)
 
     OPERATOR  go to state 105
 
 
 State 129
 
-   30 expression: expression • OPERATOR expression
-   62 conditionals: expression RELATIONAL expression •
+   30 exp: exp • OPERATOR exp
+   62 cond_rules: exp RELATIONAL exp •
 
     NOT         shift, and go to state 94
     ADD         shift, and go to state 95
@@ -1707,15 +1707,15 @@ State 129
     AND         shift, and go to state 102
     MOD         shift, and go to state 103
 
-    $default  reduce using rule 62 (conditionals)
+    $default  reduce using rule 62 (cond_rules)
 
     OPERATOR  go to state 105
 
 
 State 130
 
-   30 expression: expression • OPERATOR expression
-   61 conditionals: expression EQUALS expression •
+   30 exp: exp • OPERATOR exp
+   61 cond_rules: exp EQUALS exp •
 
     NOT         shift, and go to state 94
     ADD         shift, and go to state 95
@@ -1728,15 +1728,15 @@ State 130
     AND         shift, and go to state 102
     MOD         shift, and go to state 103
 
-    $default  reduce using rule 61 (conditionals)
+    $default  reduce using rule 61 (cond_rules)
 
     OPERATOR  go to state 105
 
 
 State 131
 
-   30 expression: expression • OPERATOR expression
-   64 conditionals: expression OR expression •
+   30 exp: exp • OPERATOR exp
+   64 cond_rules: exp OR exp •
 
     NOT         shift, and go to state 94
     ADD         shift, and go to state 95
@@ -1749,15 +1749,15 @@ State 131
     AND         shift, and go to state 102
     MOD         shift, and go to state 103
 
-    $default  reduce using rule 64 (conditionals)
+    $default  reduce using rule 64 (cond_rules)
 
     OPERATOR  go to state 105
 
 
 State 132
 
-   30 expression: expression • OPERATOR expression
-   65 conditionals: expression AND expression •
+   30 exp: exp • OPERATOR exp
+   65 cond_rules: exp AND exp •
 
     NOT         shift, and go to state 94
     ADD         shift, and go to state 95
@@ -1770,49 +1770,49 @@ State 132
     AND         shift, and go to state 102
     MOD         shift, and go to state 103
 
-    $default  reduce using rule 65 (conditionals)
+    $default  reduce using rule 65 (cond_rules)
 
     OPERATOR  go to state 105
 
 
 State 133
 
-   56 for_statement: FOR LBRACKET assignment conditionals SEMICOLON conditionals • RBRACKET LBRACE statements RBRACE
+   56 for_loop_rules: FOR LBRACKET assign_rules cond_rules SEMICOLON cond_rules • RBRACKET LBRACE statements RBRACE
 
     RBRACKET  shift, and go to state 136
 
 
 State 134
 
-   23 procedure_calls: ID EQUAL ID LBRACKET expressions RBRACKET • SEMICOLON
+   23 procedure_rules: ID EQUAL ID LBRACKET exp_rule RBRACKET • SEMICOLON
 
     SEMICOLON  shift, and go to state 137
 
 
 State 135
 
-   53 if_statement: IF LBRACKET bool_exp RBRACKET THEN • LBRACE statements RBRACE else_part
+   53 if_rules: IF LBRACKET boolean_rules RBRACKET THEN • LBRACE statements RBRACE else_rules
 
     LBRACE  shift, and go to state 138
 
 
 State 136
 
-   56 for_statement: FOR LBRACKET assignment conditionals SEMICOLON conditionals RBRACKET • LBRACE statements RBRACE
+   56 for_loop_rules: FOR LBRACKET assign_rules cond_rules SEMICOLON cond_rules RBRACKET • LBRACE statements RBRACE
 
     LBRACE  shift, and go to state 139
 
 
 State 137
 
-   23 procedure_calls: ID EQUAL ID LBRACKET expressions RBRACKET SEMICOLON •
+   23 procedure_rules: ID EQUAL ID LBRACKET exp_rule RBRACKET SEMICOLON •
 
-    $default  reduce using rule 23 (procedure_calls)
+    $default  reduce using rule 23 (procedure_rules)
 
 
 State 138
 
-   53 if_statement: IF LBRACKET bool_exp RBRACKET THEN LBRACE • statements RBRACE else_part
+   53 if_rules: IF LBRACKET boolean_rules RBRACKET THEN LBRACE • statements RBRACE else_rules
 
     INTEGER  shift, and go to state 16
     FOR      shift, and go to state 33
@@ -1822,32 +1822,32 @@ State 138
     ID       shift, and go to state 36
     STRING   shift, and go to state 18
 
-    INTEGER   [reduce using rule 52 (if_statements)]
-    IF        reduce using rule 52 (if_statements)
-    FOR       [reduce using rule 52 (if_statements)]
-    RETURN    [reduce using rule 52 (if_statements)]
-    BOOL      [reduce using rule 52 (if_statements)]
+    INTEGER   [reduce using rule 52 (if_rule)]
+    IF        reduce using rule 52 (if_rule)
+    FOR       [reduce using rule 52 (if_rule)]
+    RETURN    [reduce using rule 52 (if_rule)]
+    BOOL      [reduce using rule 52 (if_rule)]
     RBRACE    reduce using rule 8 (statements)
-    RBRACE    [reduce using rule 52 (if_statements)]
-    PRINT     [reduce using rule 52 (if_statements)]
-    ID        [reduce using rule 52 (if_statements)]
-    STRING    [reduce using rule 52 (if_statements)]
+    RBRACE    [reduce using rule 52 (if_rule)]
+    PRINT     [reduce using rule 52 (if_rule)]
+    ID        [reduce using rule 52 (if_rule)]
+    STRING    [reduce using rule 52 (if_rule)]
     $default  reduce using rule 8 (statements)
 
     statements       go to state 140
     statement        go to state 38
-    declaration      go to state 39
-    procedure_calls  go to state 40
-    type             go to state 41
-    prints           go to state 42
-    assignment       go to state 43
-    if_statements    go to state 44
-    for_statement    go to state 45
+    dec_rules        go to state 39
+    procedure_rules  go to state 40
+    exp_t_rule       go to state 41
+    print_rules      go to state 42
+    assign_rules     go to state 43
+    if_rule          go to state 44
+    for_loop_rules   go to state 45
 
 
 State 139
 
-   56 for_statement: FOR LBRACKET assignment conditionals SEMICOLON conditionals RBRACKET LBRACE • statements RBRACE
+   56 for_loop_rules: FOR LBRACKET assign_rules cond_rules SEMICOLON cond_rules RBRACKET LBRACE • statements RBRACE
 
     INTEGER  shift, and go to state 16
     FOR      shift, and go to state 33
@@ -1857,78 +1857,78 @@ State 139
     ID       shift, and go to state 36
     STRING   shift, and go to state 18
 
-    INTEGER   [reduce using rule 52 (if_statements)]
-    IF        reduce using rule 52 (if_statements)
-    FOR       [reduce using rule 52 (if_statements)]
-    RETURN    [reduce using rule 52 (if_statements)]
-    BOOL      [reduce using rule 52 (if_statements)]
+    INTEGER   [reduce using rule 52 (if_rule)]
+    IF        reduce using rule 52 (if_rule)
+    FOR       [reduce using rule 52 (if_rule)]
+    RETURN    [reduce using rule 52 (if_rule)]
+    BOOL      [reduce using rule 52 (if_rule)]
     RBRACE    reduce using rule 8 (statements)
-    RBRACE    [reduce using rule 52 (if_statements)]
-    PRINT     [reduce using rule 52 (if_statements)]
-    ID        [reduce using rule 52 (if_statements)]
-    STRING    [reduce using rule 52 (if_statements)]
+    RBRACE    [reduce using rule 52 (if_rule)]
+    PRINT     [reduce using rule 52 (if_rule)]
+    ID        [reduce using rule 52 (if_rule)]
+    STRING    [reduce using rule 52 (if_rule)]
     $default  reduce using rule 8 (statements)
 
     statements       go to state 141
     statement        go to state 38
-    declaration      go to state 39
-    procedure_calls  go to state 40
-    type             go to state 41
-    prints           go to state 42
-    assignment       go to state 43
-    if_statements    go to state 44
-    for_statement    go to state 45
+    dec_rules        go to state 39
+    procedure_rules  go to state 40
+    exp_t_rule       go to state 41
+    print_rules      go to state 42
+    assign_rules     go to state 43
+    if_rule          go to state 44
+    for_loop_rules   go to state 45
 
 
 State 140
 
-   53 if_statement: IF LBRACKET bool_exp RBRACKET THEN LBRACE statements • RBRACE else_part
+   53 if_rules: IF LBRACKET boolean_rules RBRACKET THEN LBRACE statements • RBRACE else_rules
 
     RBRACE  shift, and go to state 142
 
 
 State 141
 
-   56 for_statement: FOR LBRACKET assignment conditionals SEMICOLON conditionals RBRACKET LBRACE statements • RBRACE
+   56 for_loop_rules: FOR LBRACKET assign_rules cond_rules SEMICOLON cond_rules RBRACKET LBRACE statements • RBRACE
 
     RBRACE  shift, and go to state 143
 
 
 State 142
 
-   53 if_statement: IF LBRACKET bool_exp RBRACKET THEN LBRACE statements RBRACE • else_part
+   53 if_rules: IF LBRACKET boolean_rules RBRACKET THEN LBRACE statements RBRACE • else_rules
 
     ELSE  shift, and go to state 144
 
-    $default  reduce using rule 55 (else_part)
+    $default  reduce using rule 55 (else_rules)
 
-    else_part  go to state 145
+    else_rules  go to state 145
 
 
 State 143
 
-   56 for_statement: FOR LBRACKET assignment conditionals SEMICOLON conditionals RBRACKET LBRACE statements RBRACE •
+   56 for_loop_rules: FOR LBRACKET assign_rules cond_rules SEMICOLON cond_rules RBRACKET LBRACE statements RBRACE •
 
-    $default  reduce using rule 56 (for_statement)
+    $default  reduce using rule 56 (for_loop_rules)
 
 
 State 144
 
-   54 else_part: ELSE • LBRACE statements RBRACE
+   54 else_rules: ELSE • LBRACE statements RBRACE
 
     LBRACE  shift, and go to state 146
 
 
 State 145
 
-   53 if_statement: IF LBRACKET bool_exp RBRACKET THEN LBRACE statements RBRACE else_part •
+   53 if_rules: IF LBRACKET boolean_rules RBRACKET THEN LBRACE statements RBRACE else_rules •
 
-    $default  reduce using rule 53 (if_statement)
+    $default  reduce using rule 53 (if_rules)
 
 
 State 146
 
-   54 else_part: ELSE LBRACE • statements RBRACE
+   54 else_rules: ELSE LBRACE • statements RBRACE
 
     INTEGER  shift, and go to state 16
     FOR      shift, and go to state 33
@@ -1938,38 +1938,38 @@ State 146
     ID       shift, and go to state 36
     STRING   shift, and go to state 18
 
-    INTEGER   [reduce using rule 52 (if_statements)]
-    IF        reduce using rule 52 (if_statements)
-    FOR       [reduce using rule 52 (if_statements)]
-    RETURN    [reduce using rule 52 (if_statements)]
-    BOOL      [reduce using rule 52 (if_statements)]
+    INTEGER   [reduce using rule 52 (if_rule)]
+    IF        reduce using rule 52 (if_rule)
+    FOR       [reduce using rule 52 (if_rule)]
+    RETURN    [reduce using rule 52 (if_rule)]
+    BOOL      [reduce using rule 52 (if_rule)]
     RBRACE    reduce using rule 8 (statements)
-    RBRACE    [reduce using rule 52 (if_statements)]
-    PRINT     [reduce using rule 52 (if_statements)]
-    ID        [reduce using rule 52 (if_statements)]
-    STRING    [reduce using rule 52 (if_statements)]
+    RBRACE    [reduce using rule 52 (if_rule)]
+    PRINT     [reduce using rule 52 (if_rule)]
+    ID        [reduce using rule 52 (if_rule)]
+    STRING    [reduce using rule 52 (if_rule)]
     $default  reduce using rule 8 (statements)
 
     statements       go to state 147
     statement        go to state 38
-    declaration      go to state 39
-    procedure_calls  go to state 40
-    type             go to state 41
-    prints           go to state 42
-    assignment       go to state 43
-    if_statements    go to state 44
-    for_statement    go to state 45
+    dec_rules        go to state 39
+    procedure_rules  go to state 40
+    exp_t_rule       go to state 41
+    print_rules      go to state 42
+    assign_rules     go to state 43
+    if_rule          go to state 44
+    for_loop_rules   go to state 45
 
 
 State 147
 
-   54 else_part: ELSE LBRACE statements • RBRACE
+   54 else_rules: ELSE LBRACE statements • RBRACE
 
     RBRACE  shift, and go to state 148
 
 
 State 148
 
-   54 else_part: ELSE LBRACE statements RBRACE •
+   54 else_rules: ELSE LBRACE statements RBRACE •
 
-    $default  reduce using rule 54 (else_part)
+    $default  reduce using rule 54 (else_rules)
