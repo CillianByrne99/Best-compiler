@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "lex.h"
+#include "ToY.h"
  
 int cur_scope = 0;
  
@@ -44,28 +44,4 @@ void insert(char *name, int len, int type, int lineno){
         t->next->next = NULL;
     }
 }
-
- 
-nodeList *lookup(char *name){ /* return symbol if found or NULL if not found */
-    unsigned int hashval = hash(name);
-    nodeList *l = hash_table[hashval];
-    while ((l != NULL) && (strcmp(name,l->st_name) != 0)) l = l->next;
-    return l; // NULL is not found
-}
- 
-nodeList *lookup_scope(char *name, int scope){ /* return symbol if found or NULL if not found */
-    unsigned int hashval = hash(name);
-    nodeList *l = hash_table[hashval];
-    while ((l != NULL) && (strcmp(name,l->st_name) != 0) && (scope != l->scope)) l = l->next;
-    return l; // NULL is not found
-}
- 
-void hide_scope(){ /* hide the current scope */
-    if(cur_scope > 0) cur_scope--;
-}
- 
-void incr_scope(){ /* go to next scope */
-    cur_scope++;
-}
- 
 

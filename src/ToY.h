@@ -10,11 +10,6 @@
 #define BY_VALUE 1
 #define BY_REFER 2
 
-  
-// Function Declarations
-// hash table structure
-// and functionality for inserting and serching for entries
-
 void table();
 unsigned int hash(char *key); 
 void insert(char *name, int len, int type, int lineno); 
@@ -27,17 +22,12 @@ typedef struct parameterStruct{
     int passing;
 }parameterStruct;
  
-/* a linked list of references*/
 typedef struct listOfRefs{ 
     int lineno;
     struct listOfRefs *next;
     int type;
 }listOfRefs;
- 
-// This strut referneces a list of nodes
-// Stores values and other information
-// For arrays it stores info type and for functions in returns type
-// it then points to the next object in list
+
 typedef struct nodeList{
     char st_name[LENGTH];
     int st_size;
@@ -55,7 +45,3 @@ typedef struct nodeList{
  
 static nodeList **hash_table;
 
-nodeList *lookup(char *name); // search for entry
-nodeList *lookup_scope(char *name, int scope); // search for entry in scope
-void hide_scope(); // hide the current scope
-void incr_scope(); // go to next scope
