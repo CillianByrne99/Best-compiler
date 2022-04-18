@@ -20,7 +20,7 @@
 
 %token MULTIPLY DIVIDE OR AND MOD
 %token INTEGER IF THEN ELSE FOR  VOID RETURN BOOL TRU FAL STRUCT
-%token LBRACKET RBRACKET LBRACKET RBRACKET SEMICOLON DOT COMMA PRINT
+%token LBRACKET RBRACKET LBRACE RBRACE SEMICOLON DOT COMMA PRINT
 %token ID ICONST STRING SCONST
 
 %left NOT SUB ADD MULTIPLY DIVIDE
@@ -38,8 +38,8 @@ compiler: run_decs ;
 run_decs: run_dec_rules run_decs |  ;
 
 run_dec_rules: 
-	return_t_rules ID LBRACKET decs_x LBRACKET statements RBRACKET | 
-	return_t_rules ID LBRACKET RBRACKET LBRACKET statements RBRACKET |
+	return_t_rules ID LBRACKET decs_x LBRACE statements RBRACE | 
+	return_t_rules ID LBRACKET RBRACKET LBRACE statements RBRACE |
 	STRUCT ID LBRACKET decs_y 
 ;
 
@@ -95,11 +95,11 @@ left_exp_rule : ID | ID DOT ID |
 
 if_rule: if_rule if_rules | ;
 
-if_rules: IF LBRACKET boolean_rules RBRACKET THEN LBRACKET statements RBRACKET else_rules;
+if_rules: IF LBRACKET boolean_rules RBRACKET THEN LBRACE statements RBRACE else_rules;
  
-else_rules: ELSE LBRACKET statements RBRACKET | ; 
+else_rules: ELSE LBRACE statements RBRACE | ; 
  
-for_loop_rules: FOR LBRACKET assign_rules cond_rules SEMICOLON cond_rules RBRACKET LBRACKET statements RBRACKET;
+for_loop_rules: FOR LBRACKET assign_rules cond_rules SEMICOLON cond_rules RBRACKET LBRACE statements RBRACE;
 
 boolean_rules : cond_rules | ID | TRU | FAL ;
 
