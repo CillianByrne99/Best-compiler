@@ -9,10 +9,10 @@
 	extern int yylex();
 	void yyerror();
 %}
-//a lot to do here
 
 
-/* token definition */
+
+/* tokens */
 %token NOT
 %token ADD SUB
 %token RELATIONAL
@@ -20,133 +20,117 @@
 
 %token MULTIPLY DIVIDE OR AND MOD
 %token INTEGER IF THEN ELSE FOR  VOID RETURN BOOL TRU FAL STRUCT
-%token LBRACKET RBRACKET LBRACE RBRACE SEMICOLON DOT COMMA PRINT
+%token LBRACKET RBRACKET LBRACKET RBRACKET SEMICOLON DOT COMMA PRINT
 %token ID ICONST STRING SCONST
 
 %left NOT SUB ADD MULTIPLY DIVIDE
 %nonassoc EQUALS RELATIONAL
 %left DOT
 
-%start program
+%start compiler
  
-/* expression priorities and rules */
+/* exp rules */
  
 %%
  
-program: procedure_declarations ;
+compiler: run_decs ;
  
-procedure_declarations: procedure_declaration procedure_declarations |  ;
+run_decs: run_dec_rules run_decs |  ;
 
-procedure_declaration: 
-	return_type ID LBRACKET declarations_p LBRACE statements RBRACE | 
-	return_type ID LBRACKET RBRACKET LBRACE statements RBRACE |
-	STRUCT ID LBRACE declarations_s 
+run_dec_rules: 
+	return_t_rules ID LBRACKET decs_x LBRACKET statements RBRACKET | 
+	return_t_rules ID LBRACKET RBRACKET LBRACKET statements RBRACKET |
+	STRUCT ID LBRACKET decs_y 
 ;
 
 statements: statement statements | ;
  
 statement:
-	if_statements | for_statement | assignment | prints | declaration | procedure_calls
-	| RETURN returns SEMICOLON
+	if_rule | for_loop_rules | assign_rules | print_rules | dec_rules | procedure_rules
+	| RETURN return_rules SEMICOLON 
 
-declaration: type ID SEMICOLON;
+dec_rules: exp_t_rule ID SEMICOLON;
 
-declarations_p: declaration_p COMMA declarations_p | declaration_p RBRACKET;
-declarations_s: declaration_p COMMA declarations_s | declaration_p RBRACE;
+decs_x: dec_x COMMA decs_x | dec_x RBRACKET;
+decs_y: dec_x COMMA decs_y | dec_x RBRACKET;
 
-declaration_p: type ID;
+dec_x: exp_t_rule ID;
 
 
-procedure_calls: 
-	ID LBRACKET expressions RBRACKET SEMICOLON | 
-	ID EQUAL ID LBRACKET expressions RBRACKET SEMICOLON 
+procedure_rules: 
+	ID LBRACKET exp_rule RBRACKET SEMICOLON | 
+	ID EQUAL ID LBRACKET exp_rule RBRACKET SEMICOLON 
 ;
 
 
-expressions: expressions expression | ;
-expression:
+exp_rule: exp_rule exp | ;
+exp:
 	ICONST |
 	SCONST |
 	TRU |
 	FAL |
-	expression OPERATOR expression |
-    LBRACKET expression RBRACKET |
+	exp OPERATOR exp |
+    LBRACKET exp RBRACKET |
 	sign ICONST |
-    NOT expression |
+    NOTEQUAL exp |
 	ID |
 	ID DOT ID
 	
 ;
  
 
-type: INTEGER | STRING | BOOL;
+exp_t_rule: INTEGER | STRING | BOOL;
 
-prints: PRINT LBRACKET SCONST RBRACKET SEMICOLON ;
+print_rules: PRINT LBRACKET SCONST RBRACKET SEMICOLON ;
 
-returns:
+return_rules:
 	ID | ICONST | SCONST | VOID | ;
 
-return_type:
+return_t_rules:
 	INTEGER | STRING | BOOL | VOID;
 
-assignment:  ID EQUAL VOID SEMICOLON | ID EQUAL expression SEMICOLON ; 
+assign_rules:  ID EQUAL VOID SEMICOLON | ID EQUAL exp SEMICOLON ; 
 
-lexp : ID | ID DOT ID | 
+left_exp_rule : ID | ID DOT ID | 
 
-if_statements: if_statements if_statement | ;
+if_rule: if_rule if_rules | ;
 
-if_statement: IF LBRACKET bool_exp RBRACKET THEN LBRACE statements RBRACE else_part;
+if_rules: IF LBRACKET boolean_rules RBRACKET THEN LBRACKET statements RBRACKET else_rules;
  
-else_part: ELSE LBRACE statements RBRACE | ; 
+else_rules: ELSE LBRACKET statements RBRACKET | ; 
  
-for_statement: FOR LBRACKET assignment conditionals SEMICOLON conditionals RBRACKET LBRACE statements RBRACE;
+for_loop_rules: FOR LBRACKET assign_rules cond_rules SEMICOLON cond_rules RBRACKET LBRACKET statements RBRACKET;
 
-bool_exp : conditionals | ID | TRU | FAL ;
+boolean_rules : cond_rules | ID | TRU | FAL ;
 
-conditionals:
-	expression EQUALS expression |
-    expression RELATIONAL expression |
-	NOT expression |
-	expression OR expression  |
-	expression AND expression |
-	ID EQUAL expression 
+cond_rules:
+	exp EQUALS exp |
+    exp RELATIONAL exp |
+	NOT exp |
+	exp OR exp  |
+	exp AND exp |
+	ID EQUAL exp 
 
 sign: ADD | SUB;
 OPERATOR : ADD | SUB | MULTIPLY | DIVIDE |MOD | AND | OR | NOT | EQUALS | RELATIONAL ;
 
- 
 %%
  
-void yyerror ()
-{
-   fprintf(stderr, "Syntax Error at line \n");
+void yyerror (){
+   fprintf(stderr, "ERROR: cannot compile line- \n");
 }
 
 
 int main (int argc, char *argv[]){
-
-	// initialize symbol table
 	init_hash_table();
- 
-	// parsing
-	int flag;
+	int parse;
 	yyin = fopen(argv[1], "r");
-	flag = yyparse();
+	parse = yyparse();
 	fclose(yyin);
- 
-	// symbol table dump
-	yyout = fopen("ToY_dump.out", "w");
-	ToY_dump(yyout);
+	yyout = fopen("toy_output.out", toy_output(yyout);
 	fclose(yyout);
-
-	printf("\n\nProgram: ",flag);
-
-	if(flag == 0){
-		printf("VALID\n\n\n");
-	}
-	else{
-		printf("ERROR\n\n\n");
-	}
-	
-	return flag;
+	printf("\nCompile: ",parse);
+	if(parse == 0){printf("VALID: compilation successful");}
+	else{printf("ERROR: compilation failed");}
+	return parse;
 }
