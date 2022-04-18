@@ -1,10 +1,5 @@
-/* maximum size of hash table */
 #define SIZE 211
- 
-/* maximum size of tokens-identifiers */
-#define MAXTOKENLEN 40
- 
-/* token types */
+#define LENGTH 40
 #define UNDEF 0
 #define INT_TYPE 1
 #define REAL_TYPE 2
@@ -12,52 +7,43 @@
 #define LOGIC_TYPE 4
 #define ARRAY_TYPE 5
 #define FUNCTION_TYPE 6
- 
-/* how parameterStructeter is passed */
 #define BY_VALUE 1
 #define BY_REFER 2
+
  
-/* parameterStructeter struct */
+
+void table();
+unsigned int hash(char *key); 
+void insert(char *name, int len, int type, int lineno); 
+
+
 typedef struct parameterStruct{
-    int par_type;
-    char parameterStruct_name[MAXTOKENLEN];
-    // to store value
-    int ival; double fval; char *st_sval;
-    int passing; // value or reference
+    int type;
+    char name[LENGTH];
+    int x; double y; char *st_sval;
+    int passing;
 }parameterStruct;
  
-/* a linked list of references (lineno's) for each variable */
 typedef struct listOfRefs{ 
     int lineno;
     struct listOfRefs *next;
     int type;
 }listOfRefs;
- 
-// struct that represents a list node
+
 typedef struct nodeList{
-    char st_name[MAXTOKENLEN];
+    char st_name[LENGTH];
     int st_size;
     int scope;
     listOfRefs *lines;
-    // to store value and sometimes more information
-    int st_ival; double st_fval; char *st_sval;
-    // type
+    int store_x; double store_y; char *store_sval;
     int st_type;
-    int inf_type; // for arrays (info type) and functions (return type)
-    // array stuff
-    int *i_vals; double *f_vals; char **s_vals;
+    int inf_type;
+    int *x_vals; double *y_vals; char **store_vals;
     int array_size;
-    // function parameterStructeters
     parameterStruct *parameterStructeters;
     int num_of_pars;
-    // pointer to next item in the list
     struct nodeList *next;
 }nodeList;
  
-/* the hash table */
 static nodeList **hash_table;
- 
-// Function Declarations
-void init_hash_table(); // initialize hash table
-unsigned int hash(char *key); // hash function 
-void insert(char *name, int len, int type, int lineno); // insert entry
+
