@@ -45,26 +45,3 @@ unsigned int hash(char *key){
     hashval += key[0] % 11 + (key[0] << 3) - key[0];
     return hashval % SIZE;
 }
-
-nodeList *lookup(char *name){ 
-    unsigned int hashval = hash(name);
-    nodeList *l = hash_table[hashval];
-    while ((l != NULL) && (strcmp(name,l->st_name) != 0)) l = l->next;
-    return l;
-}
- 
-nodeList *lookup_scope(char *name, int scope){ 
-    unsigned int hashval = hash(name);
-    nodeList *l = hash_table[hashval];
-    while ((l != NULL) && (strcmp(name,l->st_name) != 0) && (scope != l->scope)) l = l->next;
-    return l; 
-}
- 
-void hide_scope(){ 
-    if(cur_scope > 0) cur_scope--;
-}
- 
-void incr_scope(){ 
-    cur_scope++;
-}
- 

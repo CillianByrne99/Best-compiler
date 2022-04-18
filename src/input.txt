@@ -1,5 +1,8 @@
-int foo(int bar) {
-    int y;
-    y = bar;
-    return y;
+
+
+int main()
+{
+    printf("Hello World")
+
+    return 0;
 }
