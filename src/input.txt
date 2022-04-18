@@ -1,0 +1,5 @@
+int isit(int maybe) {
+    int y;
+    y = bar;
+    return y;
+}
