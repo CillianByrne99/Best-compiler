@@ -55,3 +55,7 @@ typedef struct nodeList{
  
 static nodeList **hash_table;
 
+nodeList *lookup(char *name); // search for entry
+nodeList *lookup_scope(char *name, int scope); // search for entry in scope
+void hide_scope(); // hide the current scope
+void incr_scope(); // go to next scope
