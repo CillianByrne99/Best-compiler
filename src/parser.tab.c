@@ -69,7 +69,7 @@
 /* First part of user prologue.  */
 #line 1 "parser.y"
 
-	#include "ToY.c"
+	#include "compiler.c"
 	#include <stdio.h>
 	#include <stdlib.h>
 	#include <string.h>
