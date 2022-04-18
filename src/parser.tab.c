@@ -1439,8 +1439,10 @@ void yyerror (){
    fprintf(stderr, "ERROR: cannot compile line- \n");
 }
 
+extern int yy_flex_debug;
 
 int main (int argc, char *argv[]){
+	yy_flex_debug =0;
 	table();
 	int parse;
 	yyin = fopen(argv[1], "r");
